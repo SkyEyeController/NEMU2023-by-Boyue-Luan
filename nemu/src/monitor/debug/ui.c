@@ -63,7 +63,7 @@ static int cmd_si(char *args)
 static int cmd_info(char *args)
 {
 	char *arg = strtok(args, " ");
-	printf("%s\n", arg);
+	//printf("%s\n", arg);
 	// cpu info
 	if (strcmp(arg, "r") == 0)
 	{
@@ -83,6 +83,13 @@ static int cmd_info(char *args)
 
 	return 0;
 }
+static int cmd_x(char *args)
+{
+	char *arg = strtok(args, " ");
+	printf("%s\n", arg);
+	return 0;
+
+}
 
 static struct
 {
@@ -94,7 +101,8 @@ static struct
 	{"c", "Continue the execution of the program", cmd_c},
 	{"q", "Exit NEMU", cmd_q},
 	{"si", "Let the program execute N instructions in a single step and then suspend execution", cmd_si},
-	{"info", "see the ", cmd_info},
+	{"info", "print the Register", cmd_info},
+	{"x","scan the memory",cmd_x},
 	/* TODO: Add more commands */
 };
 
