@@ -62,7 +62,7 @@ static int cmd_si(char *args)
 
 static int cmd_info(char *args)
 {
-	char *arg = strtok(args, " ");
+	char *arg = strtok(NULL, " ");
 	// printf("%s\n", arg);
 	//  cpu info
 	if (strcmp(arg, "r") == 0)
@@ -75,6 +75,7 @@ static int cmd_info(char *args)
 		printf("ebp  0x%08x  %d\n", cpu.ebp, cpu.ebp);
 		printf("esi  0x%08x  %d\n", cpu.esi, cpu.esi);
 		printf("edi  0x%08x  %d\n", cpu.edi, cpu.edi);
+		printf("eip  0x%08x  %d\n", cpu.eip, cpu.eip);
 		printf("\n");
 	}
 	else if (strcmp(arg, "w") == 0)
