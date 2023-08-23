@@ -89,8 +89,8 @@ static bool make_token(char *e)
 	regmatch_t pmatch;
 
 	nr_token = 0;
-	printf("%s\n",e);
-	printf("%c",e[position]);
+	printf("%s\n", e);
+	printf("%c", e[position]);
 	while (e[position] != '\0')
 	{
 		/* Try all rules one by one. */
@@ -110,11 +110,66 @@ static bool make_token(char *e)
 				 */
 				switch (rules[i].token_type)
 				{
-
+				case NUM:
+					tokens[nr_token].type = NUM;
+					strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
+					nr_token++;
+					break;
+				case REG:
+					tokens[nr_token].type = REG;
+					strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
+					nr_token++;
+					break;
+				case HEXN:
+					tokens[nr_token].type = REG;
+					strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
+					nr_token++;
+					break;
+				case '+':
+					tokens[nr_token++].type = '+';
+					break;
+				case '-':
+					tokens[nr_token++].type = '-';
+					break;
+				case '*':
+					tokens[nr_token++].type = '*';
+					break;
+				case '/':
+					tokens[nr_token++].type = '/';
+					break;
+				case '(':
+					tokens[nr_token++].type = '(';
+					break;
+				case ')':
+					tokens[nr_token++].type = ')';
+					break;
+				case AND:
+					tokens[nr_token].type = AND;
+					strcpy(tokens[nr_token].str, "&&");
+					nr_token++;
+					break;
+				case OR:
+					tokens[nr_token].type = OR;
+					strcpy(tokens[nr_token].str, "||");
+					nr_token++;
+					break;
+				case EQ:
+					tokens[nr_token].type = EQ;
+					strcpy(tokens[nr_token].str, "==");
+					nr_token++;
+					break;
+				case NOTEQUAL:
+					tokens[nr_token].type = NOTEQUAL;
+					strcpy(tokens[nr_token].str, "!=");
+					nr_token++;
+					break;
+				case '!':
+					tokens[nr_token].type = '!';
+					nr_token++;
+					break;
 				default:
 					panic("please implement me");
 				}
-
 				break;
 			}
 		}
