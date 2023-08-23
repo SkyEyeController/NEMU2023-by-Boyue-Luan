@@ -94,6 +94,8 @@ static int cmd_x(char *args)
 	}
 	int n=atoi(arg);
 	printf("%d\n",n);
+	arg=strtok(NULL," ");
+	printf("%s\n", arg);
 	
 	return 0;
 
