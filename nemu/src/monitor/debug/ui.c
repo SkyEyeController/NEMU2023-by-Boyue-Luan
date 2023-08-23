@@ -113,8 +113,9 @@ static int cmd_x(char *args)
 	int i=0;
 	for (;i<n;i++)
 	{
-		printf("%x:", addr + i * 4);
-		printf("0x%08x\n", swaddr_read(addr + 4 * i, 4));
+		if(i%4==0)printf("%x:", addr + i * 4);
+		printf("0x%08x ", swaddr_read(addr + 4 * i, 4));
+		if(i%4==3)printf("\n");
 	}
 	return 0;
 }
