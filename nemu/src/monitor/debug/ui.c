@@ -113,7 +113,7 @@ static int cmd_x(char *args)
 	for (;i<=n;i++)
 	{
 		printf("%x:", addr + i * 4);
-		printf("%x\n", hwaddr_read(addr + 4 * i, 4));
+		printf("0x%08x\n", hwaddr_read(addr + 4 * i, 4));
 	}
 
 	return 0;
