@@ -123,9 +123,8 @@ static int cmd_x(char *args)
 }
 static int cmd_p(char *args)
 {
-	char *arg = strtok(NULL, " ");
 	bool *t=NULL;
-	expr(arg, t);
+	expr(args, t);
 	return 0;
 }
 static struct
