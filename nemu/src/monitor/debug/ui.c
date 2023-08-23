@@ -59,6 +59,27 @@ static int cmd_si(char *args)
 	return 0;
 };
 
+static int cmd_info(char *args){
+    char *arg = strtok(args," ");
+    printf("%s\n",arg);
+    //cpu info
+    if (strcmp(arg,"r")==0){
+        printf("eax is %x\n",cpu.eax);
+        printf("ecx is %x\n",cpu.ecx);
+        printf("edx is %x\n",cpu.edx);
+        printf("ebx is %x\n",cpu.ebx);
+        printf("esp is %x\n",cpu.esp);
+        printf("ebp is %x\n",cpu.ebp); 
+        printf("esi is %x\n",cpu.esi);
+        printf("edi is %x\n",cpu.edi);
+        printf("---------------------------\n");
+    }
+    else if(strcmp(arg,"w")==0){
+    }
+     
+    return 0;
+}  
+
 static struct
 {
 	char *name;
@@ -68,8 +89,8 @@ static struct
 	{"help", "Display informations about all supported commands", cmd_help},
 	{"c", "Continue the execution of the program", cmd_c},
 	{"q", "Exit NEMU", cmd_q},
-	{"si", "Let the program execute N instructions in a single step and then suspend execution", cmd_si},
-
+	{"si [N]", "Let the program execute N instructions in a single step and then suspend execution", cmd_si},
+{"info SUBCMD", "see the ", cmd_info},
 /* TODO: Add more commands */
 }
 ;
