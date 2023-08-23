@@ -89,7 +89,8 @@ static bool make_token(char *e)
 	regmatch_t pmatch;
 
 	nr_token = 0;
-
+	printf("%s\n",e);
+	printf("%c",e[position]);
 	while (e[position] != '\0')
 	{
 		/* Try all rules one by one. */
@@ -109,7 +110,7 @@ static bool make_token(char *e)
 				 */
 				switch (rules[i].token_type)
 				{
-					
+
 				default:
 					panic("please implement me");
 				}
