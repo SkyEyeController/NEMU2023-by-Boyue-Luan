@@ -2,7 +2,6 @@ void init_monitor(int, char *[]);
 void reg_test();
 void restart();
 void ui_mainloop();
-
 int main(int argc, char *argv[]) {
 
 	/* Initialize the monitor. */

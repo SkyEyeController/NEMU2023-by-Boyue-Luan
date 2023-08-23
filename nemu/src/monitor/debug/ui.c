@@ -110,16 +110,24 @@ static int cmd_x(char *args)
 		printf("Too much args,system failed \n");
 		return 1;
 	}
-	int i=0;
-	for (;i<n;i++)
+	int i = 0;
+	for (; i < n; i++)
 	{
-		if(i%4==0)printf("%x:", addr + i * 4);
+		if (i % 4 == 0)
+			printf("%x:", addr + i * 4);
 		printf("0x%08x ", swaddr_read(addr + 4 * i, 4));
-		if(i%4==3)printf("\n");
+		if (i % 4 == 3)
+			printf("\n");
 	}
 	return 0;
 }
-
+static int cmd_p(char *args)
+{
+	char *arg = strtok(NULL, " ");
+	bool *t=NULL;
+	expr(arg, t);
+	return 0;
+}
 static struct
 {
 	char *name;
@@ -132,6 +140,7 @@ static struct
 	{"si", "Let the program execute N instructions in a single step and then suspend execution", cmd_si},
 	{"info", "print the Register", cmd_info},
 	{"x", "scan the memory", cmd_x},
+	{"p", "caculate the express", cmd_p},
 	/* TODO: Add more commands */
 };
 
