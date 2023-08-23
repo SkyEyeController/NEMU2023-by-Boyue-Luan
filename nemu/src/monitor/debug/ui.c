@@ -54,6 +54,7 @@ static int cmd_si(char *args)
 		printf("No things ,system return 1.\n");
 	}
 	else num = atoi(arg);
+	printf("%d",num);
 	cpu_exec(num);
 	return 0;
 };
