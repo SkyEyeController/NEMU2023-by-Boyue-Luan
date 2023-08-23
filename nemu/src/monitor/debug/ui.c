@@ -63,8 +63,8 @@ static int cmd_si(char *args)
 static int cmd_info(char *args)
 {
 	char *arg = strtok(args, " ");
-	//printf("%s\n", arg);
-	// cpu info
+	// printf("%s\n", arg);
+	//  cpu info
 	if (strcmp(arg, "r") == 0)
 	{
 		printf("eax is %x\n", cpu.eax);
@@ -86,19 +86,31 @@ static int cmd_info(char *args)
 static int cmd_x(char *args)
 {
 	char *arg = strtok(NULL, " ");
-	printf("%s\n", arg);
-	if(arg==NULL)
+	// printf("%s\n", arg);
+	if (arg == NULL)
 	{
 		printf("you need to putin a num");
 		return 1;
 	}
-	int n=atoi(arg);
-	printf("%d\n",n);
-	char *arg2=strtok(NULL," ");
-	printf("%s\n", arg2);
-	
+	int n = atoi(arg);
+	// printf("%d\n",n);
+	char *arg2 = strtok(NULL, " ");
+	if (arg2 == NULL || !isxdigit(arg2[0]))
+	{
+		printf("you need to putin a correct memplace");
+		return 1;
+	}
+	// printf("%s\n", arg2);
+	int addr;
+	sscanf(arg2,"%x",&addr);
+	char *arg3 = strtok(NULL, " ");
+	if (arg3 != NULL)
+	{
+		printf("Too much args,system failed \n");
+		return 1;
+	}
+	printf("%u\n",hwaddr_read(addr+4*n,4));
 	return 0;
-
 }
 
 static struct
@@ -112,7 +124,7 @@ static struct
 	{"q", "Exit NEMU", cmd_q},
 	{"si", "Let the program execute N instructions in a single step and then suspend execution", cmd_si},
 	{"info", "print the Register", cmd_info},
-	{"x","scan the memory",cmd_x},
+	{"x", "scan the memory", cmd_x},
 	/* TODO: Add more commands */
 };
 
