@@ -50,7 +50,7 @@ static int cmd_si(char *args)
 	if (arg == NULL)
 	{
 		printf("No things ,system return 1.\n");
-		return 1;
+		*arg='1';
 	}
 	int num = atoi(arg);
 	cpu_exec(num);
