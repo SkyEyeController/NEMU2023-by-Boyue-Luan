@@ -110,8 +110,8 @@ static int cmd_x(char *args)
 		printf("Too much args,system failed \n");
 		return 1;
 	}
-	int i=1;
-	for (;i<=n;i++)
+	int i=0;
+	for (;i<n;i++)
 	{
 		printf("%x:", addr + i * 4);
 		printf("0x%08x\n", swaddr_read(addr + 4 * i, 4));
