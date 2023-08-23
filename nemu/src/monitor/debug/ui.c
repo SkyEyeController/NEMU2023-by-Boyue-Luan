@@ -48,7 +48,7 @@ static int cmd_si(char *args)
 
 	char *arg = strtok(args, " ");
 	int num=1;
-	// printf("%s\n",arg);
+	 printf("%s\n",arg);
 	if (arg == NULL)
 	{
 		printf("No things ,system return 1.\n");
