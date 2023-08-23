@@ -67,15 +67,15 @@ static int cmd_info(char *args)
 	//  cpu info
 	if (strcmp(arg, "r") == 0)
 	{
-		printf("eax is %x\n", cpu.eax);
-		printf("ecx is %x\n", cpu.ecx);
-		printf("edx is %x\n", cpu.edx);
-		printf("ebx is %x\n", cpu.ebx);
-		printf("esp is %x\n", cpu.esp);
-		printf("ebp is %x\n", cpu.ebp);
-		printf("esi is %x\n", cpu.esi);
-		printf("edi is %x\n", cpu.edi);
-		printf("---------------------------\n");
+		printf("eax  0x%x %d\n", cpu.eax,cpu.eax);
+		printf("ecx  0x%x %d\n", cpu.ecx,cpu.ecx);
+		printf("edx  0x%x %d\n", cpu.edx,cpu.edx);
+		printf("ebx  0x%x %d\n", cpu.ebx,cpu.ebx);
+		printf("esp  0x%x %d\n", cpu.esp,cpu.esp);
+		printf("ebp  0x%x %d\n", cpu.ebp,cpu.ebp);
+		printf("esi  0x%x %d\n", cpu.esi,cpu.esi);
+		printf("edi  0x%x %d\n", cpu.edi,cpu.edi);
+		printf("\n");
 	}
 	else if (strcmp(arg, "w") == 0)
 	{
