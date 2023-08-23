@@ -85,7 +85,7 @@ static int cmd_info(char *args)
 }
 static int cmd_x(char *args)
 {
-	char *arg = strtok(args, " ");
+	char *arg = strtok(NULL, " ");
 	printf("%s\n", arg);
 	if(arg==NULL)
 	{
@@ -94,8 +94,8 @@ static int cmd_x(char *args)
 	}
 	int n=atoi(arg);
 	printf("%d\n",n);
-	arg=strtok(NULL," ");
-	printf("%s\n", arg);
+	char *arg2=strtok(NULL," ");
+	printf("%s\n", arg2);
 	
 	return 0;
 
