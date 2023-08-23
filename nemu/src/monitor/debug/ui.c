@@ -67,14 +67,14 @@ static int cmd_info(char *args)
 	//  cpu info
 	if (strcmp(arg, "r") == 0)
 	{
-		printf("eax  0x%x  %d\n", cpu.eax,cpu.eax);
-		printf("ecx  0x%x  %d\n", cpu.ecx,cpu.ecx);
-		printf("edx  0x%x  %d\n", cpu.edx,cpu.edx);
-		printf("ebx  0x%x  %d\n", cpu.ebx,cpu.ebx);
-		printf("esp  0x%x  %d\n", cpu.esp,cpu.esp);
-		printf("ebp  0x%x  %d\n", cpu.ebp,cpu.ebp);
-		printf("esi  0x%x  %d\n", cpu.esi,cpu.esi);
-		printf("edi  0x%x  %d\n", cpu.edi,cpu.edi);
+		printf("eax  0x%x  %d\n", cpu.eax, cpu.eax);
+		printf("ecx  0x%x  %d\n", cpu.ecx, cpu.ecx);
+		printf("edx  0x%x  %d\n", cpu.edx, cpu.edx);
+		printf("ebx  0x%x  %d\n", cpu.ebx, cpu.ebx);
+		printf("esp  0x%x  %d\n", cpu.esp, cpu.esp);
+		printf("ebp  0x%x  %d\n", cpu.ebp, cpu.ebp);
+		printf("esi  0x%x  %d\n", cpu.esi, cpu.esi);
+		printf("edi  0x%x  %d\n", cpu.edi, cpu.edi);
 		printf("\n");
 	}
 	else if (strcmp(arg, "w") == 0)
@@ -102,15 +102,20 @@ static int cmd_x(char *args)
 	}
 	// printf("%s\n", arg2);
 	int addr;
-	sscanf(arg2,"%x",&addr);
+	sscanf(arg2, "%x", &addr);
 	char *arg3 = strtok(NULL, " ");
 	if (arg3 != NULL)
 	{
 		printf("Too much args,system failed \n");
 		return 1;
 	}
-	  //printf("addr = %x\n",addr+n*4);
-	printf("%u\n",hwaddr_read(addr+4*n,4));
+	int i=1;
+	for (;i<=n;i++)
+	{
+		printf("%x:", addr + n * 4);
+		printf("%u\n", hwaddr_read(addr + 4 * n, 4));
+	}
+
 	return 0;
 }
 
