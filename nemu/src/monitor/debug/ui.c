@@ -49,7 +49,7 @@ static int cmd_si(char *args)
 	// printf("%s\n",arg);
 	if (arg == NULL)
 	{
-		printf("No things ERROR,system return 1.\n");
+		printf("No things ,system return 1.\n");
 		return 1;
 	}
 	int num = atoi(arg);
