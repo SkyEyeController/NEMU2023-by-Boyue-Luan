@@ -47,38 +47,42 @@ static int cmd_si(char *args)
 {
 
 	char *arg = strtok(args, " ");
-	int num=1;
-	 //printf("%s\n",arg);
+	int num = 1;
+	// printf("%s\n",arg);
 	if (arg == NULL)
 	{
 		printf("No things ,system return 1.\n");
 	}
-	else num = atoi(arg);
-	//printf("%d",num);
+	else
+		num = atoi(arg);
+	// printf("%d",num);
 	cpu_exec(num);
 	return 0;
 };
 
-static int cmd_info(char *args){
-    char *arg = strtok(args," ");
-    printf("%s\n",arg);
-    //cpu info
-    if (strcmp(arg,"r")==0){
-        printf("eax is %x\n",cpu.eax);
-        printf("ecx is %x\n",cpu.ecx);
-        printf("edx is %x\n",cpu.edx);
-        printf("ebx is %x\n",cpu.ebx);
-        printf("esp is %x\n",cpu.esp);
-        printf("ebp is %x\n",cpu.ebp); 
-        printf("esi is %x\n",cpu.esi);
-        printf("edi is %x\n",cpu.edi);
-        printf("---------------------------\n");
-    }
-    else if(strcmp(arg,"w")==0){
-    }
-     
-    return 0;
-}  
+static int cmd_info(char *args)
+{
+	char *arg = strtok(args, " ");
+	printf("%s\n", arg);
+	// cpu info
+	if (strcmp(arg, "r") == 0)
+	{
+		printf("eax is %x\n", cpu.eax);
+		printf("ecx is %x\n", cpu.ecx);
+		printf("edx is %x\n", cpu.edx);
+		printf("ebx is %x\n", cpu.ebx);
+		printf("esp is %x\n", cpu.esp);
+		printf("ebp is %x\n", cpu.ebp);
+		printf("esi is %x\n", cpu.esi);
+		printf("edi is %x\n", cpu.edi);
+		printf("---------------------------\n");
+	}
+	else if (strcmp(arg, "w") == 0)
+	{
+	}
+
+	return 0;
+}
 
 static struct
 {
@@ -90,10 +94,9 @@ static struct
 	{"c", "Continue the execution of the program", cmd_c},
 	{"q", "Exit NEMU", cmd_q},
 	{"si", "Let the program execute N instructions in a single step and then suspend execution", cmd_si},
-{"info", "see the ", cmd_info},
-/* TODO: Add more commands */
-}
-;
+	{"info", "see the ", cmd_info},
+	/* TODO: Add more commands */
+};
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
