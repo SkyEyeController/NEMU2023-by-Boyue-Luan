@@ -109,6 +109,7 @@ static int cmd_x(char *args)
 		printf("Too much args,system failed \n");
 		return 1;
 	}
+	  printf("addr = %x\n",addr+n*4);
 	printf("%u\n",hwaddr_read(addr+4*n,4));
 	return 0;
 }
