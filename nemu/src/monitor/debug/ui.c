@@ -89,8 +89,8 @@ static struct
 	{"help", "Display informations about all supported commands", cmd_help},
 	{"c", "Continue the execution of the program", cmd_c},
 	{"q", "Exit NEMU", cmd_q},
-	{"si [N]", "Let the program execute N instructions in a single step and then suspend execution", cmd_si},
-{"info SUBCMD", "see the ", cmd_info},
+	{"si", "Let the program execute N instructions in a single step and then suspend execution", cmd_si},
+{"info", "see the ", cmd_info},
 /* TODO: Add more commands */
 }
 ;
