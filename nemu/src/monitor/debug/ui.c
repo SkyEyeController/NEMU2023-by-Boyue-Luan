@@ -87,6 +87,14 @@ static int cmd_x(char *args)
 {
 	char *arg = strtok(args, " ");
 	printf("%s\n", arg);
+	if(arg==NULL)
+	{
+		printf("you need to putin a num");
+		return 1;
+	}
+	int n=atoi(arg);
+	printf("%d\n",n);
+	
 	return 0;
 
 }
