@@ -112,8 +112,8 @@ static int cmd_x(char *args)
 	int i=1;
 	for (;i<=n;i++)
 	{
-		printf("%x:", addr + n * 4);
-		printf("%u\n", hwaddr_read(addr + 4 * n, 4));
+		printf("%x:", addr + i * 4);
+		printf("%u\n", hwaddr_read(addr + 4 * i, 4));
 	}
 
 	return 0;
