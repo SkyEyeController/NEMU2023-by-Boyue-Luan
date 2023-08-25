@@ -16,7 +16,9 @@ enum
 	NOTEQUAL,
 	AND,
 	OR,
-	NOT
+	NOT,
+	POINT,
+	NEG
 
 	/* TODO: Add more token types */
 
@@ -250,6 +252,7 @@ uint32_t dominate_operator(int p, int q)
 			break;
 		}
 	}
+	if(tokenflag)result=-2;
 	return result;
 }
 uint32_t eval(int p, int q)
