@@ -8,17 +8,7 @@
 
 enum
 {
-	NOTYPE = 256,
-	EQ,
-	NUM,
-	REG,
-	HEXN,
-	NOTEQUAL,
-	AND,
-	OR,
-	NOT,
-	POINT,
-	NEG
+	NOTYPE = 256,EQ,NUM,REG,HEXN,NOTEQUAL,AND,OR,NOT,POINT,NEG
 	/* TODO: Add more token types */
 
 };
