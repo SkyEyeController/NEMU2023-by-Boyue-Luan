@@ -334,8 +334,7 @@ uint32_t eval(int p, int q)
 			assert(0);
 		}
 	}
-	else if (check_parenthese(p, q))
-		return eval(p + 1, q - 1);
+	else if (check_parenthese(p, q))return eval(p + 1, q - 1);
 	else // calc
 	{
 		int op = dominate_operator(p, q);
