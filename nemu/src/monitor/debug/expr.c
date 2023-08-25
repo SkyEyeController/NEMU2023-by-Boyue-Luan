@@ -252,7 +252,8 @@ uint32_t dominate_operator(int p, int q)
 			break;
 		}
 	}
-	if(tokenflag)result=-2;
+	if (tokenflag)
+		result = -2;
 	return result;
 }
 uint32_t eval(int p, int q)
@@ -338,6 +339,18 @@ uint32_t eval(int p, int q)
 	else // calc
 	{
 		int op = dominate_operator(p, q);
+		if (op == -2)
+			assert(0);
+		else if (op == -1) // 指针解引用问题或负号问题
+		{
+			if (tokens[p].type == NEG)
+			{
+				int result = 0;
+				sscanf(tokens[q].str, '%d', &result);
+				return -result;
+			}
+		}
+
 		int val1 = eval(p, op - 1);
 		int val2 = eval(op + 1, q);
 		switch (tokens[op].type)
