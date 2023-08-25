@@ -190,9 +190,9 @@ bool check_parenthese(int p, int q)
 		int i = p;
 		for (i = p; i <= q; i++)
 		{
-			if (tokens[p].type == '(')
+			if (tokens[i].type == '(')
 				l++;
-			if (tokens[q].type == ')')
+			if (tokens[i].type == ')')
 				r++;
 			if (i != q && l == r)
 				return false;
