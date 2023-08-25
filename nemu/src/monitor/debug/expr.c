@@ -339,7 +339,7 @@ uint32_t eval(int p, int q)
 	else // calc
 	{
 		int op = dominate_operator(p, q);
-		// printf("%d\n", op);
+		printf("%d\n", op);
 		if (op == -2)
 			assert(0);
 		else if (op == -1) // 指针解引用问题或负号问题
@@ -412,7 +412,7 @@ uint32_t eval(int p, int q)
 
 		int val1 = eval(p, op - 1);
 		int val2 = eval(op + 1, q);
-		// printf("%d %d\n",val1,val2);
+		printf("%d %d\n",val1,val2);
 		switch (tokens[op].type)
 		{
 		case '+':
