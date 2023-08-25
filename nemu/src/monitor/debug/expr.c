@@ -412,6 +412,7 @@ uint32_t eval(int p, int q)
 
 		int val1 = eval(p, op - 1);
 		int val2 = eval(op + 1, q);
+		printf("%d %d\n",val1,val2);
 		switch (tokens[op].type)
 		{
 		case '+':
