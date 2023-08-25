@@ -189,6 +189,114 @@ static bool make_token(char *e)
 
 	return true;
 }
+bool check_parenthese(int p, int q)
+{
+	int l=0,r=0;
+	if(tokens[p].type=='('&&tokens[q].type==')')
+	{
+		int i=p;
+		for(i=p;i<=q;i++)
+		{
+			if(tokens[p].type=='(')l++;
+			if(tokens[q].type==')')r++;
+			if(i!=q&&l==r)return false;
+		}
+		if(l==r)
+		{
+			return true;
+		}
+		else return false;
+	}
+	return false;
+}
+uint32_t eval(int p, int q)
+{
+	if (p > q)
+	{
+		/*Bad expression*/
+		printf("Wrong caculate,system failed");
+		assert(0);
+	}
+	else if (p == q)
+	{
+		/*Single token
+		For now this token should be a number
+		return the value of the number*/
+		// check for the 10 or hex or reg
+		int result = 0;
+		if (tokens[p].type == NUM)
+		{
+			sscanf(tokens[p].str, "%d", &result);
+			return result;
+		}
+		else if (tokens[p].type == HEXN) // hex num 0x123456
+		{
+			int i=2;
+			for (i = 2; tokens[p].str[i] != 0; i++)
+			{
+				result *= 16;
+				result += tokens[p].str[i] <='9' ? tokens[p].str[i] - '0' : tokens[p].str[i] - 'a' + 10;
+			}
+		}
+		else if (tokens[p].type == REG)
+		{
+			if (!strcmp(tokens[p].str, "$eax"))
+			{
+				return cpu.eax;
+			}
+			else if (!strcmp(tokens[p].str, "$ecx"))
+			{
+				return cpu.ecx;
+			}
+			else if (!strcmp(tokens[p].str, "$edx"))
+			{
+				return cpu.edx;
+			}
+			else if (!strcmp(tokens[p].str, "$ebx"))
+			{
+				return cpu.ebx;
+			}
+			else if (!strcmp(tokens[p].str, "$esp"))
+			{
+				return cpu.esp;
+			}
+			else if (!strcmp(tokens[p].str, "$ebp"))
+			{
+				return cpu.ebp;
+			}
+			else if (!strcmp(tokens[p].str, "$esi"))
+			{
+				return cpu.esi;
+			}
+			else if (!strcmp(tokens[p].str, "$edi"))
+			{
+				return cpu.edi;
+			}
+			else if (!strcmp(tokens[p].str, "$eip"))
+			{
+				return cpu.eip;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			printf("hex or num or reg ERROR,system failed");
+			assert(0);
+		}
+	}
+	else if (check_parenthese(p, q))
+		return eval(p + 1, q - 1);
+	else
+	{
+		
+
+	}
+
+	return 0;
+}
 
 uint32_t expr(char *e, bool *success)
 {
@@ -199,6 +307,6 @@ uint32_t expr(char *e, bool *success)
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	
+
 	return 0;
 }
