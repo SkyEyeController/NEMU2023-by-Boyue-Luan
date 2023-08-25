@@ -8,7 +8,17 @@
 
 enum
 {
-	NOTYPE = 256,EQ,NUM,REG,HEXN,NOTEQUAL,AND,OR,NOT,POINT,NEG
+	NOTYPE = 256,
+	EQ,
+	NUM,
+	REG,
+	HEXN,
+	NOTEQUAL,
+	AND,
+	OR,
+	NOT,
+	POINT,
+	NEG
 	/* TODO: Add more token types */
 
 };
@@ -160,7 +170,7 @@ static bool make_token(char *e)
 						nr_token++;
 						break;
 					case NOTYPE:
-					break;
+						break;
 					default:
 						assert(0);
 					}
@@ -344,68 +354,66 @@ uint32_t eval(int p, int q)
 			}
 			else if (tokens[p].type == POINT)
 			{
-				if (tokens[p].type == POINT)
+
+				int result = 0;
+				if (!strcmp(tokens[p + 2].str, "$eax"))
 				{
-					int result = 0;
-					if (!strcmp(tokens[p + 2].str, "$eax"))
-					{
-						result = swaddr_read(cpu.eax, 4);
-						return result;
-					}
-					else if (!strcmp(tokens[p + 2].str, "$ecx"))
-					{
-						result = swaddr_read(cpu.ecx, 4);
-						return result;
-					}
-					else if (!strcmp(tokens[p + 2].str, "$edx"))
-					{
-						result = swaddr_read(cpu.edx, 4);
-						return result;
-					}
-					else if (!strcmp(tokens[p + 2].str, "$ebx"))
-					{
-						result = swaddr_read(cpu.ebx, 4);
-						return result;
-					}
-					else if (!strcmp(tokens[p + 2].str, "$esp"))
-					{
-						result = swaddr_read(cpu.esp, 4);
-						return result;
-					}
-					else if (!strcmp(tokens[p + 2].str, "$ebp"))
-					{
-						result = swaddr_read(cpu.ebp, 4);
-						return result;
-					}
-					else if (!strcmp(tokens[p + 2].str, "$esi"))
-					{
-						result = swaddr_read(cpu.esi, 4);
-						return result;
-					}
-					else if (!strcmp(tokens[p + 2].str, "$edi"))
-					{
-						result = swaddr_read(cpu.edi, 4);
-						return result;
-					}
-					else if (!strcmp(tokens[p + 2].str, "$eip"))
-					{
-						result = swaddr_read(cpu.eip, 4);
-						return result;
-					}
+					result = swaddr_read(cpu.eax, 4);
+					return result;
+				}
+				else if (!strcmp(tokens[p + 2].str, "$ecx"))
+				{
+					result = swaddr_read(cpu.ecx, 4);
+					return result;
+				}
+				else if (!strcmp(tokens[p + 2].str, "$edx"))
+				{
+					result = swaddr_read(cpu.edx, 4);
+					return result;
+				}
+				else if (!strcmp(tokens[p + 2].str, "$ebx"))
+				{
+					result = swaddr_read(cpu.ebx, 4);
+					return result;
+				}
+				else if (!strcmp(tokens[p + 2].str, "$esp"))
+				{
+					result = swaddr_read(cpu.esp, 4);
+					return result;
+				}
+				else if (!strcmp(tokens[p + 2].str, "$ebp"))
+				{
+					result = swaddr_read(cpu.ebp, 4);
+					return result;
+				}
+				else if (!strcmp(tokens[p + 2].str, "$esi"))
+				{
+					result = swaddr_read(cpu.esi, 4);
+					return result;
+				}
+				else if (!strcmp(tokens[p + 2].str, "$edi"))
+				{
+					result = swaddr_read(cpu.edi, 4);
+					return result;
+				}
+				else if (!strcmp(tokens[p + 2].str, "$eip"))
+				{
+					result = swaddr_read(cpu.eip, 4);
+					return result;
 				}
 			}
-		}
-		else if (tokens[p].type == '!')
-		{
-			int result = 0;
-			sscanf(tokens[q].str, "%d", &result);
-			return !result;
+			else if (tokens[p].type == '!')
+			{
+				int result = 0;
+				sscanf(tokens[q].str, "%d", &result);
+				return !result;
+			}
 		}
 
 		int val1 = eval(p, op - 1);
-		printf("%d\n",val1);
+		printf("%d\n", val1);
 		int val2 = eval(op + 1, q);
-		printf("%d\n",val2);
+		printf("%d\n", val2);
 		switch (tokens[op].type)
 		{
 		case '+':
