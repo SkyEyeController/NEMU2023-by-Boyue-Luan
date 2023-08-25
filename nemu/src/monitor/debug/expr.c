@@ -90,8 +90,8 @@ static bool make_token(char *e)
 	regmatch_t pmatch;
 
 	nr_token = 0;
-	//printf("%s\n", e);
-	//printf("%c", e[position]);
+	// printf("%s\n", e);
+	// printf("%c", e[position]);
 	while (e[position] != '\0')
 	{
 		/* Try all rules one by one. */
@@ -219,39 +219,35 @@ bool check_parenthese(int p, int q)
 uint32_t dominate_operator(int p, int q)
 {
 	int result = -1;
+	int pre=100;
 	int i = p;
 	bool tokenflag = 0;
 	for (i = p; i <= q; i++)
 	{
-		switch (tokens[i].type)
+		if(tokens[i].type=='(')tokenflag=true;
+		else if(tokens[i].type==')')tokenflag=false;
+		else if(tokens[i].type=='*'||tokens[i].type=='/')
 		{
-		case '(':
-			tokenflag = true;
-			break;
-		case ')':
-			tokenflag = false;
-			break;
-		case '+':
-		case '-':
-			if (tokenflag)
-				break;
-			result = i;
-			break;
-		case '*':
-		case '/':
-			if (tokenflag)
-				break;
-			if (result == -1)
-				result = i;
-			if (tokens[result].type == '+' || tokens[result].type == '-')
-				break;
-			if (tokens[result].type == '*' || tokens[result].type == '/')
-			{
-				result = i;
-				break;
-			}
-			break;
+			if(pre>=5)result=i,pre=5;
 		}
+		else if(tokens[i].type=='+'||tokens[i].type=='-')
+		{
+			if(pre>=4)result=i,pre=4;
+		}
+		else if(tokens[i].type==EQ||tokens[i].type==NOTEQUAL)
+		{
+			if(pre>=3)result=i,pre=3;
+		}
+		else if(tokens[i].type==AND)
+		{
+			if(pre>=2)result=i,pre=2;
+		}
+		else if(tokens[i].type==OR)
+		{
+			if(pre>=1)result=i,pre=1;
+		}
+		else
+		assert(0);
 	}
 	if (tokenflag)
 		result = -2;
@@ -341,7 +337,7 @@ uint32_t eval(int p, int q)
 	else // calc
 	{
 		int op = dominate_operator(p, q);
-		//printf("%d\n", op);
+		// printf("%d\n", op);
 		if (op == -2)
 			assert(0);
 		else if (op == -1) // 指针解引用问题或负号问题
@@ -411,9 +407,9 @@ uint32_t eval(int p, int q)
 		}
 
 		int val1 = eval(p, op - 1);
-		//printf("%d\n", val1);
+		// printf("%d\n", val1);
 		int val2 = eval(op + 1, q);
-		//printf("%d\n", val2);
+		// printf("%d\n", val2);
 		switch (tokens[op].type)
 		{
 		case '+':
