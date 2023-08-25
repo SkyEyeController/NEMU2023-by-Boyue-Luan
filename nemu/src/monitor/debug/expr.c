@@ -8,7 +8,17 @@
 
 enum
 {
-	NOTYPE = 256,EQ,NUM,REG,HEXN,NOTEQUAL,AND,OR,NOT,POINT,NEG
+	NOTYPE = 256,
+	EQ,
+	NUM,
+	REG,
+	HEXN,
+	NOTEQUAL,
+	AND,
+	OR,
+	NOT,
+	POINT,
+	NEG
 	/* TODO: Add more token types */
 
 };
@@ -160,7 +170,7 @@ static bool make_token(char *e)
 						nr_token++;
 						break;
 					case NOTYPE:
-					break;
+						break;
 					default:
 						assert(0);
 					}
@@ -270,10 +280,11 @@ uint32_t eval(int p, int q)
 		else if (tokens[p].type == HEXN) // hex num 0x123456
 		{
 			int i = 2;
-			for (i = 2; tokens[p].str[i] != 0; i++)
+			while (tokens[p].str[i] != 0)
 			{
 				result *= 16;
 				result += tokens[p].str[i] <= '9' ? tokens[p].str[i] - '0' : tokens[p].str[i] - 'a' + 10;
+				i++;
 			}
 		}
 		else if (tokens[p].type == REG)
@@ -403,7 +414,7 @@ uint32_t eval(int p, int q)
 
 		int val1 = eval(p, op - 1);
 		int val2 = eval(op + 1, q);
-		printf("%d %d\n",val1,val2);
+		printf("%d %d\n", val1, val2);
 		switch (tokens[op].type)
 		{
 		case '+':
