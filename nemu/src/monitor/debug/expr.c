@@ -228,23 +228,23 @@ uint32_t dominate_operator(int p, int q)
 		else if(tokens[i].type==')')tokenflag=false;
 		else if(tokens[i].type=='*'||tokens[i].type=='/')
 		{
-			if(pre>=5)result=i,pre=5;
+			if(pre>=5&&!tokenflag)result=i,pre=5;
 		}
 		else if(tokens[i].type=='+'||tokens[i].type=='-')
 		{
-			if(pre>=4)result=i,pre=4;
+			if(pre>=4&&!tokenflag)result=i,pre=4;
 		}
 		else if(tokens[i].type==EQ||tokens[i].type==NOTEQUAL)
 		{
-			if(pre>=3)result=i,pre=3;
+			if(pre>=3&&!tokenflag)result=i,pre=3;
 		}
 		else if(tokens[i].type==AND)
 		{
-			if(pre>=2)result=i,pre=2;
+			if(pre>=2&&!tokenflag)result=i,pre=2;
 		}
 		else if(tokens[i].type==OR)
 		{
-			if(pre>=1)result=i,pre=1;
+			if(pre>=1&&!tokenflag)result=i,pre=1;
 		}
 		else
 		assert(0);
