@@ -211,11 +211,11 @@ uint32_t dominate_operator(int p, int q)
 	int result = -1;
 	int pre=100;
 	int i = p;
-	bool tokenflag = 0;
+	int tokenflag = 0;
 	for (i = p; i <= q; i++)
 	{
-		if(tokens[i].type=='(')tokenflag=true;
-		else if(tokens[i].type==')')tokenflag=false;
+		if(tokens[i].type=='(')tokenflag++;
+		else if(tokens[i].type==')')tokenflag--;
 		else if(tokens[i].type=='*'||tokens[i].type=='/')
 		{
 			if(pre>=5&&!tokenflag)result=i,pre=5;
