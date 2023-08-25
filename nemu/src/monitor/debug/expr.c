@@ -334,11 +334,12 @@ uint32_t eval(int p, int q)
 			assert(0);
 		}
 	}
-	else if (check_parenthese(p, q))return eval(p + 1, q - 1);
+	else if (check_parenthese(p, q))
+		return eval(p + 1, q - 1);
 	else // calc
 	{
 		int op = dominate_operator(p, q);
-		printf("%d\n",op);
+		printf("%d\n", op);
 		if (op == -2)
 			assert(0);
 		else if (op == -1) // 指针解引用问题或负号问题
@@ -407,44 +408,44 @@ uint32_t eval(int p, int q)
 			int result = 0;
 			sscanf(tokens[q].str, "%d", &result);
 			return !result;
+		}
 
-			int val1 = eval(p, op - 1);
-			int val2 = eval(op + 1, q);
-			switch (tokens[op].type)
+		int val1 = eval(p, op - 1);
+		int val2 = eval(op + 1, q);
+		switch (tokens[op].type)
+		{
+		case '+':
+			return val1 + val2;
+		case '-':
+			return val1 - val2;
+		case '*':
+			return val1 * val2;
+		case '/':
+			return val1 / val2;
+		case OR:
+			return val1 || val2;
+		case AND:
+			return val1 && val2;
+		case EQ:
+			if (val1 == val2)
 			{
-			case '+':
-				return val1 + val2;
-			case '-':
-				return val1 - val2;
-			case '*':
-				return val1 * val2;
-			case '/':
-				return val1 / val2;
-			case OR:
-				return val1 || val2;
-			case AND:
-				return val1 && val2;
-			case EQ:
-				if (val1 == val2)
-				{
-					return 1;
-				}
-				else
-				{
-					return 0;
-				}
-			case NOTEQUAL:
-				if (val1 != val2)
-				{
-					return 1;
-				}
-				else
-				{
-					return 0;
-				}
-			default:
-				assert(0);
+				return 1;
 			}
+			else
+			{
+				return 0;
+			}
+		case NOTEQUAL:
+			if (val1 != val2)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		default:
+			assert(0);
 		}
 	}
 	return 0;
