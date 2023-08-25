@@ -113,7 +113,7 @@ static bool make_token(char *e)
 						nr_token++;
 						break;
 					case HEXN:
-						tokens[nr_token].type = REG;
+						tokens[nr_token].type = HEXN;
 						strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
 						nr_token++;
 						break;
