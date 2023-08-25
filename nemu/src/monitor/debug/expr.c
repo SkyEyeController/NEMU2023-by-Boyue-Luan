@@ -224,6 +224,7 @@ uint32_t dominate_operator(int p, int q)
 	bool tokenflag = 0;
 	for (i = p; i <= q; i++)
 	{
+		if(tokens[i].type==NUM||tokens[i].type==HEXN||tokens[i].type==REG)continue;
 		if(tokens[i].type=='(')tokenflag=true;
 		else if(tokens[i].type==')')tokenflag=false;
 		else if(tokens[i].type=='*'||tokens[i].type=='/')
@@ -246,7 +247,7 @@ uint32_t dominate_operator(int p, int q)
 		{
 			if(pre>=1&&!tokenflag)result=i,pre=1;
 		}
-		else
+		else 
 		assert(0);
 	}
 	if (tokenflag)
