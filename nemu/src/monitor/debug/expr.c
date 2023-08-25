@@ -170,6 +170,8 @@ static bool make_token(char *e)
 						tokens[nr_token].type = '!';
 						nr_token++;
 						break;
+					case NOTYPE:
+					break;
 					default:
 						assert(0);
 					}
