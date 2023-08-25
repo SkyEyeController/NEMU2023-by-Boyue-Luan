@@ -44,6 +44,7 @@ static int cmd_p(char *args)
 {
 	bool *success = false;
 	int i;
+
 	i = expr(args, success);
 	if (!success)
 	{
