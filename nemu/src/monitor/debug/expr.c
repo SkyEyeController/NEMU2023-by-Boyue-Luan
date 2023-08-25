@@ -191,23 +191,66 @@ static bool make_token(char *e)
 }
 bool check_parenthese(int p, int q)
 {
-	int l=0,r=0;
-	if(tokens[p].type=='('&&tokens[q].type==')')
+	int l = 0, r = 0;
+	if (tokens[p].type == '(' && tokens[q].type == ')')
 	{
-		int i=p;
-		for(i=p;i<=q;i++)
+		int i = p;
+		for (i = p; i <= q; i++)
 		{
-			if(tokens[p].type=='(')l++;
-			if(tokens[q].type==')')r++;
-			if(i!=q&&l==r)return false;
+			if (tokens[p].type == '(')
+				l++;
+			if (tokens[q].type == ')')
+				r++;
+			if (i != q && l == r)
+				return false;
 		}
-		if(l==r)
+		if (l == r)
 		{
 			return true;
 		}
-		else return false;
+		else
+			return false;
 	}
 	return false;
+}
+uint32_t dominate_operator(int p, int q)
+{
+	int result = -1;
+	int i = p;
+	bool tokenflag = 0;
+	for (i = p; i <= q; i++)
+	{
+		switch (tokens[i].type)
+		{
+		case '(':
+			tokenflag = true;
+			break;
+		case ')':
+			tokenflag = false;
+			break;
+		case '+':
+		case '-':
+			if (tokenflag)
+				break;
+			result = i;
+			break;
+		case '*':
+		case '/':
+			if (tokenflag)
+				break;
+			if (result == -1)
+				result = i;
+			if (tokens[result].type == '+' || tokens[result].type == '-')
+				break;
+			if (tokens[result].type == '*' || tokens[result].type == '/')
+			{
+				result = i;
+				break;
+			}
+			break;
+		}
+	}
+	return result;
 }
 uint32_t eval(int p, int q)
 {
@@ -231,11 +274,11 @@ uint32_t eval(int p, int q)
 		}
 		else if (tokens[p].type == HEXN) // hex num 0x123456
 		{
-			int i=2;
+			int i = 2;
 			for (i = 2; tokens[p].str[i] != 0; i++)
 			{
 				result *= 16;
-				result += tokens[p].str[i] <='9' ? tokens[p].str[i] - '0' : tokens[p].str[i] - 'a' + 10;
+				result += tokens[p].str[i] <= '9' ? tokens[p].str[i] - '0' : tokens[p].str[i] - 'a' + 10;
 			}
 		}
 		else if (tokens[p].type == REG)
@@ -289,10 +332,46 @@ uint32_t eval(int p, int q)
 	}
 	else if (check_parenthese(p, q))
 		return eval(p + 1, q - 1);
-	else
+	else // calc
 	{
-		
-
+		int op = dominate_operator(p, q);
+		int val1 = eval(p, op - 1);
+		int val2 = eval(op + 1, q);
+		switch (tokens[op].type)
+		{
+		case '+':
+			return val1 + val2;
+		case '-':
+			return val1 - val2;
+		case '*':
+			return val1 * val2;
+		case '/':
+			return val1 / val2;
+		case OR:
+			return val1 || val2;
+		case AND:
+			return val1 && val2;
+		case EQ:
+			if (val1 == val2)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		case NOTEQUAL:
+			if (val1 != val2)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		default:
+			assert(0);
+		}
 	}
 
 	return 0;
