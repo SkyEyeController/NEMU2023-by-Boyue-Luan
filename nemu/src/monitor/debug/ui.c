@@ -40,7 +40,17 @@ static int cmd_q(char *args)
 {
 	return -1;
 }
-
+static int cmd_p(char *args)
+{
+	bool *success = false;
+	int i;
+	i = expr(args, success);
+	if (!success)
+	{
+		printf("%d\n", i);
+	}
+	return 0;
+}
 static int cmd_help(char *args);
 
 static int cmd_si(char *args)
@@ -119,12 +129,6 @@ static int cmd_x(char *args)
 		if (i % 4 == 3)
 			printf("\n");
 	}
-	return 0;
-}
-static int cmd_p(char *args)
-{
-	bool *t=NULL;
-	expr(args, t);
 	return 0;
 }
 static struct

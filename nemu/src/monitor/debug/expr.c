@@ -346,50 +346,107 @@ uint32_t eval(int p, int q)
 			if (tokens[p].type == NEG)
 			{
 				int result = 0;
-				sscanf(tokens[q].str, '%d', &result);
+				sscanf(tokens[q].str, "%d", &result);
 				return -result;
 			}
+			else if (tokens[p].type == POINT)
+			{
+				if (tokens[p].type == POINT)
+				{
+					int result = 0;
+					if (!strcmp(tokens[p + 2].str, "$eax"))
+					{
+						result = swaddr_read(cpu.eax, 4);
+						return result;
+					}
+					else if (!strcmp(tokens[p + 2].str, "$ecx"))
+					{
+						result = swaddr_read(cpu.ecx, 4);
+						return result;
+					}
+					else if (!strcmp(tokens[p + 2].str, "$edx"))
+					{
+						result = swaddr_read(cpu.edx, 4);
+						return result;
+					}
+					else if (!strcmp(tokens[p + 2].str, "$ebx"))
+					{
+						result = swaddr_read(cpu.ebx, 4);
+						return result;
+					}
+					else if (!strcmp(tokens[p + 2].str, "$esp"))
+					{
+						result = swaddr_read(cpu.esp, 4);
+						return result;
+					}
+					else if (!strcmp(tokens[p + 2].str, "$ebp"))
+					{
+						result = swaddr_read(cpu.ebp, 4);
+						return result;
+					}
+					else if (!strcmp(tokens[p + 2].str, "$esi"))
+					{
+						result = swaddr_read(cpu.esi, 4);
+						return result;
+					}
+					else if (!strcmp(tokens[p + 2].str, "$edi"))
+					{
+						result = swaddr_read(cpu.edi, 4);
+						return result;
+					}
+					else if (!strcmp(tokens[p + 2].str, "$eip"))
+					{
+						result = swaddr_read(cpu.eip, 4);
+						return result;
+					}
+				}
+			}
 		}
-
-		int val1 = eval(p, op - 1);
-		int val2 = eval(op + 1, q);
-		switch (tokens[op].type)
+		else if (tokens[p].type == '!')
 		{
-		case '+':
-			return val1 + val2;
-		case '-':
-			return val1 - val2;
-		case '*':
-			return val1 * val2;
-		case '/':
-			return val1 / val2;
-		case OR:
-			return val1 || val2;
-		case AND:
-			return val1 && val2;
-		case EQ:
-			if (val1 == val2)
+			int result = 0;
+			sscanf(tokens[q].str, "%d", &result);
+			return !result;
+
+			int val1 = eval(p, op - 1);
+			int val2 = eval(op + 1, q);
+			switch (tokens[op].type)
 			{
-				return 1;
+			case '+':
+				return val1 + val2;
+			case '-':
+				return val1 - val2;
+			case '*':
+				return val1 * val2;
+			case '/':
+				return val1 / val2;
+			case OR:
+				return val1 || val2;
+			case AND:
+				return val1 && val2;
+			case EQ:
+				if (val1 == val2)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			case NOTEQUAL:
+				if (val1 != val2)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			default:
+				assert(0);
 			}
-			else
-			{
-				return 0;
-			}
-		case NOTEQUAL:
-			if (val1 != val2)
-			{
-				return 1;
-			}
-			else
-			{
-				return 0;
-			}
-		default:
-			assert(0);
 		}
 	}
-
 	return 0;
 }
 
@@ -400,6 +457,19 @@ uint32_t expr(char *e, bool *success)
 		*success = false;
 		return 0;
 	}
+	int i;
+	for (i = 0; i < nr_token; i++)
+	{
+		if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != NUM && tokens[i - 1].type != HEXN && tokens[i - 1].type != ')')))
+		{
+			tokens[i].type = POINT;
+		}
+		if (tokens[i].type == '-' && (i == 0 || (tokens[i - 1].type != NUM && tokens[i - 1].type != HEXN && tokens[i - 1].type != ')')))
+		{
+			tokens[i].type = NEG;
+		}
+	}
+	return eval(0, nr_token - 1);
 
 	/* TODO: Insert codes to evaluate the expression. */
 
