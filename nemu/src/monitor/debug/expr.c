@@ -334,8 +334,7 @@ uint32_t eval(int p, int q)
 		{
 			if (tokens[p].type == NEG)
 			{
-				int result = 0;
-				sscanf(tokens[q].str, "%d", &result);
+				int result =eval(p+1,q);
 				return -result;
 			}
 			else if (tokens[p].type == POINT)
@@ -347,8 +346,7 @@ uint32_t eval(int p, int q)
 			}
 			else if (tokens[p].type == '!')
 			{
-				int result = 0;
-				sscanf(tokens[q].str, "%d", &result);
+				int result=eval(p+1,q);
 				return !result;
 			}
 		}
