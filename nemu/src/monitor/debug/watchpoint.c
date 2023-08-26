@@ -58,8 +58,8 @@ void insert_wp(char *args)
 	WP *p = new_wp();
 	size_s++;
 	p->NO = size_s;
-	p->args = args;
-	p->old_values = expr(p->args, &p->suc);
+	p->expr = args;
+	p->old_values = expr(p->expr, &p->suc);
 	if (!p->suc)
 		assert(0);
 	p->next = head;
@@ -69,7 +69,7 @@ void insert_wp(char *args)
 		p->next->NO = p->NO - 1;
 		p = p->next;
 	}
-	printf("Watchpoint%d : %s was setted correctly\n", head->NO, head->args);
+	printf("Watchpoint%d : %s was setted correctly\n", head->NO, head->expr);
 	return;
 }
 void print_watchpoints()
@@ -78,7 +78,7 @@ void print_watchpoints()
 	if(!p)printf("No watchpoints\n");
 	while (p)
 	{
-		printf("Watchpoint%d : %s \n", p->NO, p->args);
+		printf("Watchpoint%d : %s \n", p->NO, p->expr);
 		p = p->next;
 	}
 	return;
@@ -107,7 +107,7 @@ void delete_wp(int n)
 }
 bool check(WP *p)
 {
-	uint32_t val = expr(p->args, &p->suc);
+	uint32_t val = expr(p->expr, &p->suc);
 	if (!p->suc)
 		assert(0);
 	if (val != p->old_values)
