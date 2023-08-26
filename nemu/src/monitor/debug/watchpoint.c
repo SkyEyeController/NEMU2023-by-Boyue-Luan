@@ -67,7 +67,7 @@ void insert_wp(char *args)
 	else
 	{
 		WP *tail=head;
-		while(!tail->next)
+		while(tail->next)
 		{
 			tail=tail->next;
 		}
