@@ -59,7 +59,7 @@ void insert_wp(char *args)
 	WP *p = new_wp();
 	size_s++;
 	p->NO = size_s;
-	p->expr = args;
+	strcpy(p->expr,args);
 	p->old_values = expr(p->expr, &p->suc);
 	if (!p->suc)
 		assert(0);
