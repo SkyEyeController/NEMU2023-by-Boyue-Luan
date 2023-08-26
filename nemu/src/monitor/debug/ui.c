@@ -42,11 +42,11 @@ static int cmd_q(char *args)
 }
 static int cmd_p(char *args)
 {
-	bool *success = false;
+	bool success = true;
 	int i;
 
-	i = expr(args, success);
-	if (!success)
+	i = expr(args, &success);
+	if (success)
 	{
 		printf("%d\n", i);
 	}
