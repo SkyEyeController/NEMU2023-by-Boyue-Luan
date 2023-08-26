@@ -1,6 +1,6 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
-
+#include "cpu/reg.h"
 #define NR_WP 64
 
 static WP wp_pool[NR_WP];
@@ -116,6 +116,10 @@ bool check(WP *p)
 		assert(0);
 	if (val != p->old_values)
 	{
+		printf ("Hint watchpoint %d at address 0x%08x\n", p->NO, cpu.eip);
+		printf ("Watchpoint %d: %s\n",p->NO,p->expr);
+		printf ("Old value = %d\n",p->old_values);
+		printf ("New value = %d\n",val);
 		p->old_values = val;
 		return true;
 	}
@@ -123,12 +127,12 @@ bool check(WP *p)
 }
 bool finalcheck_()
 {
+	bool tag=false;
 	WP *p = head;
 	while (p)
 	{
-		if (check(p))
-			return true;
+		if (check(p))tag=true;
 		p = p->next;
 	}
-	return false;
+	return tag;
 }
