@@ -77,7 +77,7 @@ void print_watchpoints()
 	WP *p = head;
 	while (p)
 	{
-		printf("Watchpoint%d : %s\n", p->NO, p->args);
+		printf("Watchpoint%d : %s \n", p->NO, p->args);
 		p = p->next;
 	}
 	return;
