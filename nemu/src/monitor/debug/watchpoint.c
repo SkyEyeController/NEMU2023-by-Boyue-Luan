@@ -35,9 +35,9 @@ static WP *new_wp()
 	if (!free_)
 		assert(0);
 	WP *p = free_;
+	free_ = free_->next;
 	p->suc = true;
 	p->next=NULL;
-	free_ = free_->next;
 	return p;
 }
 static void free_wp(WP *wp)
