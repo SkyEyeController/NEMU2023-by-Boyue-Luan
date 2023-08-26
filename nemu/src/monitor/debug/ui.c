@@ -132,6 +132,16 @@ static int cmd_x(char *args)
 	}
 	return 0;
 }
+/*static int cmd_w(char *args)
+{
+	bool *success=true;
+	int i=expr(args,success);
+	if(*success)
+	{
+		
+
+	}
+}*/
 static struct
 {
 	char *name;
@@ -145,6 +155,7 @@ static struct
 	{"info", "print the Register", cmd_info},
 	{"x", "scan the memory", cmd_x},
 	{"p", "caculate the express", cmd_p},
+	//{"w", "set the watchpoints", cmd_w},
 	/* TODO: Add more commands */
 };
 
