@@ -78,7 +78,7 @@ void print_watchpoints()
 	if(!p)printf("No watchpoints\n");
 	while (p)
 	{
-		printf("Watchpoint%d : %s \n", p->NO, p->expr);
+		printf("Watchpoint : %s \n", p->expr);
 		p = p->next;
 	}
 	return;
