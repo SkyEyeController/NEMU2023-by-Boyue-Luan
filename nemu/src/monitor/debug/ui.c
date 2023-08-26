@@ -6,7 +6,9 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
+void insert_wp(char *args);
+void print_watchpoints();
+void delete_wp(int n);
 void cpu_exec(uint32_t);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
@@ -91,6 +93,7 @@ static int cmd_info(char *args)
 	}
 	else if (strcmp(arg, "w") == 0)
 	{
+		print_watchpoints();
 	}
 
 	return 0;
@@ -132,16 +135,19 @@ static int cmd_x(char *args)
 	}
 	return 0;
 }
-/*static int cmd_w(char *args)
-{
-	bool *success=true;
-	int i=expr(args,success);
-	if(*success)
-	{
-		
 
-	}
-}*/
+static int cmd_w(char *args)
+{
+	insert_wp(args);
+	return 0;
+}
+static int cmd_d(char *args)
+{
+	int i;
+	sscanf(args, "%d", &i);
+	delete_wp(i);
+	return 0;
+}
 static struct
 {
 	char *name;
@@ -155,7 +161,8 @@ static struct
 	{"info", "print the Register", cmd_info},
 	{"x", "scan the memory", cmd_x},
 	{"p", "caculate the express", cmd_p},
-	//{"w", "set the watchpoints", cmd_w},
+	{"w", "set the watchpoints", cmd_w},
+	{"d", "delete the watchpoints", cmd_d},
 	/* TODO: Add more commands */
 };
 

@@ -4,12 +4,12 @@
 #define NR_WP 64
 
 static WP wp_pool[NR_WP];
-static WP *head, *free_, *tail;
+static WP *head, *free_;
+static uint32_t size_s = 0;
 bool check_wp_isempty()
 {
 	return !size_s;
 }
-static uint32_t size_s = 0;
 uint32_t size()
 {
 	return size_s;
@@ -35,6 +35,7 @@ static WP *new_wp()
 	if (!free_)
 		assert(0);
 	WP *p = free_;
+	p->suc = true;
 	free_ = free_->next;
 	return p;
 }
@@ -43,8 +44,10 @@ static void free_wp(WP *wp)
 	WP *p = head;
 	while (p && p->next && p != wp && p->next != wp)
 		p = p->next;
-	if (!p||!p->next)
-		{panic("NULL Point ERROR at free_wp function");}
+	if (!p || !p->next)
+	{
+		panic("NULL Point ERROR at free_wp function");
+	}
 	p->next = wp->next;
 	/*clear things of wp*/;
 	wp->next = free_;
@@ -56,9 +59,12 @@ void insert_wp(char *args)
 	size_s++;
 	p->NO = size_s;
 	p->args = args;
+	p->old_values = expr(p->args, &p->suc);
+	if (!p->suc)
+		assert(0);
 	p->next = head;
 	head = p;
-	while (p&&p->next)
+	while (p && p->next)
 	{
 		p->next->NO = p->NO - 1;
 		p = p->next;
@@ -78,22 +84,46 @@ void print_watchpoints()
 }
 void delete_wp(int n)
 {
-	WP *p = head, *tar = NULL;
+	WP *p = head;
 	while (p)
 	{
 		if (p->NO == n)
 		{
 			free_wp(p);
+			size_s--;
+			break;
 		}
-		p=p->next;
+		p = p->next;
 	}
-	p=head;
-	size_s--;
-	head->NO=size_s;
-	while (p&&p->next)
+	p = head;
+	head->NO = size_s;
+	while (p && p->next)
 	{
 		p->next->NO = p->NO - 1;
 		p = p->next;
 	}
 	return;
+}
+bool check(WP *p)
+{
+	uint32_t val = expr(p->args, &p->suc);
+	if (!p->suc)
+		assert(0);
+	if (val != p->old_values)
+	{
+		p->old_values = val;
+		return true;
+	}
+	return false;
+}
+bool finalcheck_()
+{
+	WP *p = head;
+	while (p)
+	{
+		if (check(p))
+			return true;
+		p = p->next;
+	}
+	return false;
 }
