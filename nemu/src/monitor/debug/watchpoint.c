@@ -75,7 +75,7 @@ void insert_wp(char *args)
 void print_watchpoints()
 {
 	WP *p = head;
-	if(!p)printf("\n");
+	if(!p)printf("No watchpoints\n");
 	while (p)
 	{
 		printf("Watchpoint%d : %s \n", p->NO, p->args);
