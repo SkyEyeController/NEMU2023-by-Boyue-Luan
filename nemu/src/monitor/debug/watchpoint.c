@@ -36,6 +36,7 @@ static WP *new_wp()
 		assert(0);
 	WP *p = free_;
 	p->suc = true;
+	p->next=NULL;
 	free_ = free_->next;
 	return p;
 }
