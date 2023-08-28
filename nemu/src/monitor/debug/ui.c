@@ -144,7 +144,7 @@ static int cmd_x(char *args)
 	for (; i < n; i++)
 	{
 		if (i % 4 == 0)
-			printf("%x:", addr + i * 4);
+			printf("%06x:", addr + i * 4);
 		printf("0x%08x ", swaddr_read(addr + 4 * i, 4));
 		if (i % 4 == 3)
 			printf("\n");
