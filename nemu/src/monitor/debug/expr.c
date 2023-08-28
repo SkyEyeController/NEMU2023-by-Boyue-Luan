@@ -8,7 +8,17 @@
 
 enum
 {
-	NOTYPE = 256,EQ,NUM,REG,HEXN,NOTEQUAL,AND,OR,NOT,POINT,NEG
+	NOTYPE = 256,
+	EQ,
+	NUM,
+	REG,
+	HEXN,
+	NOTEQUAL,
+	AND,
+	OR,
+	NOT,
+	POINT,
+	NEG
 	/* TODO: Add more token types */
 
 };
@@ -89,10 +99,10 @@ static bool make_token(char *e)
 		{
 			if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0)
 			{
-				//char *substr_start = e + position;
+				// char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
 
-				//Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				// Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -209,35 +219,42 @@ bool check_parenthese(int p, int q)
 uint32_t dominate_operator(int p, int q)
 {
 	int result = -1;
-	int pre=100;
+	int pre = 100;
 	int i = p;
 	int tokenflag = 0;
 	for (i = p; i <= q; i++)
 	{
-		if(tokens[i].type=='(')tokenflag++;
-		else if(tokens[i].type==')')tokenflag--;
-		else if(tokens[i].type=='*'||tokens[i].type=='/')
+		if (tokens[i].type == '(')
+			tokenflag++;
+		else if (tokens[i].type == ')')
+			tokenflag--;
+		else if (tokens[i].type == '*' || tokens[i].type == '/')
 		{
-			if(pre>=5&&!tokenflag)result=i,pre=5;
+			if (pre >= 5 && !tokenflag)
+				result = i, pre = 5;
 		}
-		else if(tokens[i].type=='+'||tokens[i].type=='-')
+		else if (tokens[i].type == '+' || tokens[i].type == '-')
 		{
-			if(pre>=4&&!tokenflag)result=i,pre=4;
+			if (pre >= 4 && !tokenflag)
+				result = i, pre = 4;
 		}
-		else if(tokens[i].type==EQ||tokens[i].type==NOTEQUAL)
+		else if (tokens[i].type == EQ || tokens[i].type == NOTEQUAL)
 		{
-			if(pre>=3&&!tokenflag)result=i,pre=3;
+			if (pre >= 3 && !tokenflag)
+				result = i, pre = 3;
 		}
-		else if(tokens[i].type==AND)
+		else if (tokens[i].type == AND)
 		{
-			if(pre>=2&&!tokenflag)result=i,pre=2;
+			if (pre >= 2 && !tokenflag)
+				result = i, pre = 2;
 		}
-		else if(tokens[i].type==OR)
+		else if (tokens[i].type == OR)
 		{
-			if(pre>=1&&!tokenflag)result=i,pre=1;
+			if (pre >= 1 && !tokenflag)
+				result = i, pre = 1;
 		}
-		else 
-		continue;
+		else
+			continue;
 	}
 	if (tokenflag)
 		result = -2;
@@ -257,12 +274,12 @@ uint32_t eval(int p, int q)
 		For now this token should be a number
 		return the value of the number*/
 		// check for the 10 or hex or reg
-		printf("now at position %d\n",p);
+		printf("now at position %d\n", p);
 		int result = 0;
 		if (tokens[p].type == NUM)
 		{
 			sscanf(tokens[p].str, "%d", &result);
-			printf("%d\n",result);
+			printf("%d\n", result);
 			return result;
 		}
 		else if (tokens[p].type == HEXN) // hex num 0x123456
@@ -273,52 +290,52 @@ uint32_t eval(int p, int q)
 				result *= 16;
 				result += tokens[p].str[i] <= '9' ? tokens[p].str[i] - '0' : tokens[p].str[i] - 'a' + 10;
 			}
-			printf("%d\n",result);
+			printf("%d\n", result);
 			return result;
 		}
 		else if (tokens[p].type == REG)
 		{
 			if (!strcmp(tokens[p].str, "$eax"))
 			{
-				result=cpu.eax;
+				result = cpu.eax;
 			}
 			else if (!strcmp(tokens[p].str, "$ecx"))
 			{
-				result=cpu.ecx;
+				result = cpu.ecx;
 			}
 			else if (!strcmp(tokens[p].str, "$edx"))
 			{
-				result=cpu.edx;
+				result = cpu.edx;
 			}
 			else if (!strcmp(tokens[p].str, "$ebx"))
 			{
-				result=cpu.ebx;
+				result = cpu.ebx;
 			}
 			else if (!strcmp(tokens[p].str, "$esp"))
 			{
-				result=cpu.esp;
+				result = cpu.esp;
 			}
 			else if (!strcmp(tokens[p].str, "$ebp"))
 			{
-				result=cpu.ebp;
+				result = cpu.ebp;
 			}
 			else if (!strcmp(tokens[p].str, "$esi"))
 			{
-				result=cpu.esi;
+				result = cpu.esi;
 			}
 			else if (!strcmp(tokens[p].str, "$edi"))
 			{
-				result=cpu.edi;
+				result = cpu.edi;
 			}
 			else if (!strcmp(tokens[p].str, "$eip"))
 			{
-				result=cpu.eip;
+				result = cpu.eip;
 			}
 			else
 			{
 				return 0;
 			}
-			printf("%d\n",result);
+			printf("%d\n", result);
 		}
 		else
 		{
@@ -338,19 +355,19 @@ uint32_t eval(int p, int q)
 		{
 			if (tokens[p].type == NEG)
 			{
-				int result =eval(p+1,q);
+				int result = eval(p + 1, q);
 				return -result;
 			}
 			else if (tokens[p].type == POINT)
 			{
 				int result = 0;
-				int val=eval(p+1,q);
-				result=swaddr_read(val,4);
+				int val = eval(p + 1, q);
+				result = swaddr_read(val, 4);
 				return result;
 			}
 			else if (tokens[p].type == '!')
 			{
-				int result=eval(p+1,q);
+				int result = eval(p + 1, q);
 				return !result;
 			}
 		}
@@ -362,12 +379,16 @@ uint32_t eval(int p, int q)
 		switch (tokens[op].type)
 		{
 		case '+':
+			printf("calc now\n val1=%d\n val2=%d\n ans=%d\n", val1, val2, val1 + val2);
 			return val1 + val2;
 		case '-':
+			printf("calc now\n val1=%d\n val2=%d\n ans=%d\n", val1, val2, val1 - val2);
 			return val1 - val2;
 		case '*':
+			printf("calc now\n val1=%d\n val2=%d\n ans=%d\n", val1, val2, val1 * val2);
 			return val1 * val2;
 		case '/':
+			printf("calc now\n val1=%d\n val2=%d\n ans=%d\n", val1, val2, val1 / val2);
 			return val1 / val2;
 		case OR:
 			return val1 || val2;
