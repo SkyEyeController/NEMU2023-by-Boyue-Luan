@@ -336,6 +336,7 @@ uint32_t eval(int p, int q)
 				return 0;
 			}
 			printf("%d\n", result);
+			return result;
 		}
 		else
 		{
