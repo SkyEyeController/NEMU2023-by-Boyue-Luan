@@ -257,11 +257,12 @@ uint32_t eval(int p, int q)
 		For now this token should be a number
 		return the value of the number*/
 		// check for the 10 or hex or reg
-		printf("now at position %d",p);
+		printf("now at position %d\n",p);
 		int result = 0;
 		if (tokens[p].type == NUM)
 		{
 			sscanf(tokens[p].str, "%d", &result);
+			printf("%d\n",result);
 			return result;
 		}
 		else if (tokens[p].type == HEXN) // hex num 0x123456
@@ -272,50 +273,52 @@ uint32_t eval(int p, int q)
 				result *= 16;
 				result += tokens[p].str[i] <= '9' ? tokens[p].str[i] - '0' : tokens[p].str[i] - 'a' + 10;
 			}
+			printf("%d\n",result);
 			return result;
 		}
 		else if (tokens[p].type == REG)
 		{
 			if (!strcmp(tokens[p].str, "$eax"))
 			{
-				return cpu.eax;
+				result=cpu.eax;
 			}
 			else if (!strcmp(tokens[p].str, "$ecx"))
 			{
-				return cpu.ecx;
+				result=cpu.ecx;
 			}
 			else if (!strcmp(tokens[p].str, "$edx"))
 			{
-				return cpu.edx;
+				result=cpu.edx;
 			}
 			else if (!strcmp(tokens[p].str, "$ebx"))
 			{
-				return cpu.ebx;
+				result=cpu.ebx;
 			}
 			else if (!strcmp(tokens[p].str, "$esp"))
 			{
-				return cpu.esp;
+				result=cpu.esp;
 			}
 			else if (!strcmp(tokens[p].str, "$ebp"))
 			{
-				return cpu.ebp;
+				result=cpu.ebp;
 			}
 			else if (!strcmp(tokens[p].str, "$esi"))
 			{
-				return cpu.esi;
+				result=cpu.esi;
 			}
 			else if (!strcmp(tokens[p].str, "$edi"))
 			{
-				return cpu.edi;
+				result=cpu.edi;
 			}
 			else if (!strcmp(tokens[p].str, "$eip"))
 			{
-				return cpu.eip;
+				result=cpu.eip;
 			}
 			else
 			{
 				return 0;
 			}
+			printf("%d\n",result);
 		}
 		else
 		{
