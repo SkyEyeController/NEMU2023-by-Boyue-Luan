@@ -148,6 +148,7 @@ static int cmd_x(char *args)
 		if (i % 4 == 3)
 			printf("\n");
 	}
+	if(i%4!=0)printf("\n");
 	return 0;
 }
 
