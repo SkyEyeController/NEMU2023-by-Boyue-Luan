@@ -110,7 +110,7 @@ static int cmd_x(char *args)
 	}
 	int n = atoi(arg);
 	// printf("%d\n",n);
-	char *arg2 = strtok(NULL, " ");
+	char *arg2 = strtok(NULL, "\0");
 	int addr;
 	if (!arg2)
 	{
@@ -134,12 +134,6 @@ static int cmd_x(char *args)
 	// printf("%s\n", arg2);
 	else
 		sscanf(arg2, "%x", &addr);
-	char *arg3 = strtok(NULL, " ");
-	if (arg3 != NULL)
-	{
-		printf("Too much args,system failed \n");
-		return 1;
-	}
 	int i = 0;
 	for (; i < n; i++)
 	{
