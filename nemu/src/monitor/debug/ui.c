@@ -111,22 +111,28 @@ static int cmd_x(char *args)
 	// printf("%d\n",n);
 	char *arg2 = strtok(NULL, " ");
 	int addr;
-	if (arg2 == NULL || !isxdigit(arg2[0]))
+	if (!arg2)
 	{
-		bool suc=true;
-		uint32_t result=expr(arg2,&suc);
-		if(suc)
+		printf("you need to putin a correct memplace\n");
+		return 1;
+	}
+	else if (!isxdigit(arg2[0]))
+	{
+		bool suc = true;
+		uint32_t result = expr(arg2, &suc);
+		if (suc)
 		{
-			addr=result;
+			addr = result;
 		}
 		else
 		{
-			printf("you need to putin a correct memplace\n");
+			printf("caculate ERROR\n");
 			return 1;
 		}
 	}
 	// printf("%s\n", arg2);
-	else sscanf(arg2, "%x", &addr);
+	else
+		sscanf(arg2, "%x", &addr);
 	char *arg3 = strtok(NULL, " ");
 	if (arg3 != NULL)
 	{
