@@ -109,6 +109,11 @@ static bool make_token(char *e)
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
+				int j;
+				for (j = 0; j < 32; j++)
+				{ 
+					tokens[nr_token].str[j] = '\0';//致命清空问题，会导致严重的判断错误而计算出错
+				}
 				if (substr_len < 32)
 					switch (rules[i].token_type)
 					{
@@ -274,7 +279,7 @@ uint32_t eval(int p, int q)
 		For now this token should be a number
 		return the value of the number*/
 		// check for the 10 or hex or reg
-		printf("now at position %d\n", p);
+		//printf("now at position %d\n", p);
 		int result = 0;
 		if (tokens[p].type == NUM)
 		{
@@ -290,7 +295,7 @@ uint32_t eval(int p, int q)
 				result *= 16;
 				result += tokens[p].str[i] <= '9' ? tokens[p].str[i] - '0' : tokens[p].str[i] - 'a' + 10;
 			}
-			printf("%d\n", result);
+			// printf("%d\n", result);
 			return result;
 		}
 		else if (tokens[p].type == REG)
@@ -335,7 +340,7 @@ uint32_t eval(int p, int q)
 			{
 				return 0;
 			}
-			printf("%d\n", result);
+			//printf("%d\n", result);
 			return result;
 		}
 		else
@@ -349,7 +354,7 @@ uint32_t eval(int p, int q)
 	else // calc
 	{
 		int op = dominate_operator(p, q);
-		printf("op at position %d\n", op);
+		//printf("op at position %d\n", op);
 		if (op == -2)
 			assert(0);
 		else if (op == -1) // 指针解引用问题或负号问题
@@ -380,16 +385,16 @@ uint32_t eval(int p, int q)
 		switch (tokens[op].type)
 		{
 		case '+':
-			printf("calc now\n val1=%d\n val2=%d\n ans=%d + %d=%d\n", val1, val2,val1,val2,val1 + val2);
+			// printf("calc now\n val1=%d\n val2=%d\n ans=%d + %d=%d\n", val1, val2, val1, val2, val1 + val2);
 			return val1 + val2;
 		case '-':
-			printf("calc now\n val1=%d\n val2=%d\n ans=%d - %d=%d\n", val1, val2,val1,val2,val1 - val2);
+			// printf("calc now\n val1=%d\n val2=%d\n ans=%d - %d=%d\n", val1, val2, val1, val2, val1 - val2);
 			return val1 - val2;
 		case '*':
-			printf("calc now\n val1=%d\n val2=%d\n ans=%d * %d=%d\n", val1, val2,val1,val2,val1 * val2);
+			// printf("calc now\n val1=%d\n val2=%d\n ans=%d * %d=%d\n", val1, val2, val1, val2, val1 * val2);
 			return val1 * val2;
 		case '/':
-			printf("calc now\n val1=%d\n val2=%d\n ans=%d / %d=%d\n", val1, val2,val1,val2,val1 / val2);
+			// printf("calc now\n val1=%d\n val2=%d\n ans=%d / %d=%d\n", val1, val2, val1, val2, val1 / val2);
 			return val1 / val2;
 		case OR:
 			return val1 || val2;
