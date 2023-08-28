@@ -70,6 +70,7 @@ static int cmd_si(char *args)
 		num = atoi(arg);
 	// printf("%d",num);
 	cpu_exec(num);
+	printf("\n");
 	return 0;
 };
 
@@ -149,12 +150,14 @@ static int cmd_x(char *args)
 			printf("\n");
 	}
 	if(i%4!=0)printf("\n");
+	printf("\n");
 	return 0;
 }
 
 static int cmd_w(char *args)
 {
 	insert_wp(args);
+	printf("\n");
 	return 0;
 }
 static int cmd_d(char *args)
@@ -162,6 +165,7 @@ static int cmd_d(char *args)
 	int i;
 	sscanf(args, "%d", &i);
 	delete_wp(i);
+	printf("\n");
 	return 0;
 }
 static struct
@@ -210,6 +214,7 @@ static int cmd_help(char *args)
 		}
 		printf("Unknown command '%s'\n", arg);
 	}
+	printf("\n");
 	return 0;
 }
 
