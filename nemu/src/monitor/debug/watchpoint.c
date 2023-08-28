@@ -52,6 +52,8 @@ static void free_wp(WP *wp)
 	p->next = wp->next;
 	/*clear things of wp*/;
 	wp->next = free_;
+	int i=0;
+	for(;i<64;i++)wp->expr[i]=0;
 	free_ = wp;
 }
 void insert_wp(char *args)

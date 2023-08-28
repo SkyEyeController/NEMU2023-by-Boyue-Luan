@@ -284,7 +284,7 @@ uint32_t eval(int p, int q)
 		if (tokens[p].type == NUM)
 		{
 			sscanf(tokens[p].str, "%d", &result);
-			printf("%d\n", result);
+			//printf("%d\n", result);
 			return result;
 		}
 		else if (tokens[p].type == HEXN) // hex num 0x123456
