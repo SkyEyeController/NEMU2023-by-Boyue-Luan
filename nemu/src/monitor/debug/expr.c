@@ -257,6 +257,7 @@ uint32_t eval(int p, int q)
 		For now this token should be a number
 		return the value of the number*/
 		// check for the 10 or hex or reg
+		printf("now at position %d",p);
 		int result = 0;
 		if (tokens[p].type == NUM)
 		{
