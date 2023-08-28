@@ -110,14 +110,23 @@ static int cmd_x(char *args)
 	int n = atoi(arg);
 	// printf("%d\n",n);
 	char *arg2 = strtok(NULL, " ");
+	int addr;
 	if (arg2 == NULL || !isxdigit(arg2[0]))
 	{
-		printf("you need to putin a correct memplace");
-		return 1;
+		bool suc=true;
+		uint32_t result=expr(arg2,&suc);
+		if(suc)
+		{
+			addr=result;
+		}
+		else
+		{
+			printf("you need to putin a correct memplace\n");
+			return 1;
+		}
 	}
 	// printf("%s\n", arg2);
-	int addr;
-	sscanf(arg2, "%x", &addr);
+	else sscanf(arg2, "%x", &addr);
 	char *arg3 = strtok(NULL, " ");
 	if (arg3 != NULL)
 	{
