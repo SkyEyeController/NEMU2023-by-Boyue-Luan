@@ -50,7 +50,7 @@ static int cmd_p(char *args)
 	i = expr(args, &success);
 	if (success)
 	{
-		printf("%x\n", i);
+		printf("%d\n", i);
 	}
 	return 0;
 }
