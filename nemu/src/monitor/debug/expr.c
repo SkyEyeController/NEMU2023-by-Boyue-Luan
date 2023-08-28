@@ -8,7 +8,17 @@
 
 enum
 {
-	NOTYPE = 256,EQ,NUM,REG,HEXN,NOTEQUAL,AND,OR,NOT,POINT,NEG
+	NOTYPE = 256,
+	EQ,
+	NUM,
+	REG,
+	HEXN,
+	NOTEQUAL,
+	AND,
+	OR,
+	NOT,
+	POINT,
+	NEG
 	/* TODO: Add more token types */
 
 };
@@ -89,10 +99,10 @@ static bool make_token(char *e)
 		{
 			if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0)
 			{
-				//char *substr_start = e + position;
+				// char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
 
-				//Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				// Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -102,6 +112,8 @@ static bool make_token(char *e)
 				if (substr_len < 32)
 					switch (rules[i].token_type)
 					{
+					case NOTYPE:
+						break;
 					case NUM:
 						tokens[nr_token].type = NUM;
 						strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
@@ -159,8 +171,6 @@ static bool make_token(char *e)
 						tokens[nr_token].type = '!';
 						nr_token++;
 						break;
-					case NOTYPE:
-						break;
 					default:
 						assert(0);
 					}
@@ -209,35 +219,42 @@ bool check_parenthese(int p, int q)
 uint32_t dominate_operator(int p, int q)
 {
 	int result = -1;
-	int pre=100;
+	int pre = 100;
 	int i = p;
 	int tokenflag = 0;
 	for (i = p; i <= q; i++)
 	{
-		if(tokens[i].type=='(')tokenflag++;
-		else if(tokens[i].type==')')tokenflag--;
-		else if(tokens[i].type=='*'||tokens[i].type=='/')
+		if (tokens[i].type == '(')
+			tokenflag++;
+		else if (tokens[i].type == ')')
+			tokenflag--;
+		else if (tokens[i].type == '*' || tokens[i].type == '/')
 		{
-			if(pre>=5&&!tokenflag)result=i,pre=5;
+			if (pre >= 5 && !tokenflag)
+				result = i, pre = 5;
 		}
-		else if(tokens[i].type=='+'||tokens[i].type=='-')
+		else if (tokens[i].type == '+' || tokens[i].type == '-')
 		{
-			if(pre>=4&&!tokenflag)result=i,pre=4;
+			if (pre >= 4 && !tokenflag)
+				result = i, pre = 4;
 		}
-		else if(tokens[i].type==EQ||tokens[i].type==NOTEQUAL)
+		else if (tokens[i].type == EQ || tokens[i].type == NOTEQUAL)
 		{
-			if(pre>=3&&!tokenflag)result=i,pre=3;
+			if (pre >= 3 && !tokenflag)
+				result = i, pre = 3;
 		}
-		else if(tokens[i].type==AND)
+		else if (tokens[i].type == AND)
 		{
-			if(pre>=2&&!tokenflag)result=i,pre=2;
+			if (pre >= 2 && !tokenflag)
+				result = i, pre = 2;
 		}
-		else if(tokens[i].type==OR)
+		else if (tokens[i].type == OR)
 		{
-			if(pre>=1&&!tokenflag)result=i,pre=1;
+			if (pre >= 1 && !tokenflag)
+				result = i, pre = 1;
 		}
-		else 
-		continue;
+		else
+			continue;
 	}
 	if (tokenflag)
 		result = -2;
@@ -327,26 +344,26 @@ uint32_t eval(int p, int q)
 	else // calc
 	{
 		int op = dominate_operator(p, q);
-		//printf("%d\n", op);
+		// printf("%d\n", op);
 		if (op == -2)
 			assert(0);
 		else if (op == -1) // 指针解引用问题或负号问题
 		{
 			if (tokens[p].type == NEG)
 			{
-				int result =eval(p+1,q);
+				int result = eval(p + 1, q);
 				return -result;
 			}
 			else if (tokens[p].type == POINT)
 			{
 				int result = 0;
-				int val=eval(p+1,q);
-				result=swaddr_read(val,4);
+				int val = eval(p + 1, q);
+				result = swaddr_read(val, 4);
 				return result;
 			}
 			else if (tokens[p].type == '!')
 			{
-				int result=eval(p+1,q);
+				int result = eval(p + 1, q);
 				return !result;
 			}
 		}
