@@ -380,16 +380,16 @@ uint32_t eval(int p, int q)
 		switch (tokens[op].type)
 		{
 		case '+':
-			printf("calc now\n val1=%d\n val2=%d\n ans=%d\n", val1, val2, val1 + val2);
+			printf("calc now\n val1=%d\n val2=%d\n ans=%d + %d=%d\n", val1, val2,val1,val2,val1 + val2);
 			return val1 + val2;
 		case '-':
-			printf("calc now\n val1=%d\n val2=%d\n ans=%d\n", val1, val2, val1 - val2);
+			printf("calc now\n val1=%d\n val2=%d\n ans=%d - %d=%d\n", val1, val2,val1,val2,val1 - val2);
 			return val1 - val2;
 		case '*':
-			printf("calc now\n val1=%d\n val2=%d\n ans=%d\n", val1, val2, val1 * val2);
+			printf("calc now\n val1=%d\n val2=%d\n ans=%d * %d=%d\n", val1, val2,val1,val2,val1 * val2);
 			return val1 * val2;
 		case '/':
-			printf("calc now\n val1=%d\n val2=%d\n ans=%d\n", val1, val2, val1 / val2);
+			printf("calc now\n val1=%d\n val2=%d\n ans=%d / %d=%d\n", val1, val2,val1,val2,val1 / val2);
 			return val1 / val2;
 		case OR:
 			return val1 || val2;
