@@ -7,12 +7,11 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INSTR_TO_PRINT 100000
+#define MAX_INSTR_TO_PRINT 10
 
 int nemu_state = STOP;
 
 int exec(swaddr_t);
-bool finalcheck_();//这样就算预留了接口？
 
 char assembly[80];
 char asm_buf[128];
@@ -74,12 +73,6 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-		bool tag=finalcheck_();
-		if(tag)
-		{
-			nemu_state = STOP;
-		}
-
 
 
 #ifdef HAS_DEVICE
