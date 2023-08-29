@@ -1,4 +1,5 @@
 #include "monitor/monitor.h"
+#include "monitor/watchpoint.h"
 #include "cpu/helper.h"
 #include <setjmp.h>
 
@@ -7,12 +8,11 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INSTR_TO_PRINT 100000
+#define MAX_INSTR_TO_PRINT 10
 
 int nemu_state = STOP;
 
 int exec(swaddr_t);
-bool finalcheck_();//这样就算预留了接口？
 
 char assembly[80];
 char asm_buf[128];
@@ -74,12 +74,16 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-		bool tag=finalcheck_();
-		if(tag)
-		{
-			nemu_state = STOP;
+                WP *wp = scan_watchpoint();
+		if(wp != NULL) {
+			puts(asm_buf);
+			printf("\n\nHint watchpoint %d at address 0x%08x, expr = %s\n", wp->NO, cpu.eip - instr_len, wp->expr);
+			printf("old value = %#08x\nnew value = %#08x\n", wp->old_val, wp->new_val);
+			wp->old_val = wp->new_val;
+			return;
 		}
 
+		if(nemu_state != RUNNING) { return; }
 
 
 #ifdef HAS_DEVICE
