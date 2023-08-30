@@ -89,12 +89,17 @@ static int cmd_x(char *args) {
 
 /* Add expression evaluation  */
 static int cmd_p(char *args) {
-	bool success;
+	/*bool success;
 	if(args) {
 		uint32_t i = expr(args, &success);
 		if(success) { printf("0x%08x(%d)\n", i, i); }
 		else printf("Wrong Expression\n"); 
 	}
+	return 0;
+	*/
+    bool *success = false;
+	int i=expr(args,success);
+	if(!success)printf("%d\n",i);
 	return 0;
 }
 
