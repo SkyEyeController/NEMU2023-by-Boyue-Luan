@@ -3,13 +3,21 @@
 #define instr add
 
 static void do_execute () {
-	DATA_TYPE DEST = op_dest -> val + op_src -> val;
-	OPERAND_W(op_dest, DEST);
-    cpu.eflags.CF = (DEST < op_dest -> val);
+	DATA_TYPE ret = op_dest -> val + op_src -> val;
+	OPERAND_W(op_dest, ret);
+
+	/* TODO: Update EFLAGS. */
+    cpu.eflags.ZF = !ret;
+    cpu.eflags.SF = ret >> ((DATA_BYTE << 3) - 1);
+    cpu.eflags.CF = (ret < op_dest -> val);
     int tmp1 = (op_dest -> val) >> ((DATA_BYTE << 3) - 1);
     int tmp2 = (op_src -> val) >> ((DATA_BYTE << 3) - 1);
     cpu.eflags.OF = (tmp1 == tmp2 && tmp1 != cpu.eflags.SF);
-    update_eflags_pf_zf_sf(DEST);
+    ret ^= ret >> 4;
+    ret ^= ret >> 2;
+    ret ^= ret >> 1;
+    ret &= 1;
+    cpu.eflags.PF = !ret;
 	print_asm_template2();
 }
 
