@@ -45,3 +45,4 @@
 #include "control/test.h"
 #include "control/cmp.h"
 #include "control/je.h"
+#include "arith/add.h"
