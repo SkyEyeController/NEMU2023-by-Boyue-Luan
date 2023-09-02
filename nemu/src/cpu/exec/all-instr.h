@@ -42,3 +42,6 @@
 
 #include "process/push.h"
 #include "process/pop.h"
+#include "control/test.h"
+#include "control/cmp.h"
+#include "control/je.h"
