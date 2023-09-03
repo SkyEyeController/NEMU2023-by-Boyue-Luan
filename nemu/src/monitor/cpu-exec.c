@@ -63,6 +63,11 @@ void cpu_exec(volatile uint32_t n) {
 		int instr_len = exec(cpu.eip);
 
 		cpu.eip += instr_len;
+		//我特么算是明白怎么回事了
+		/*
+		只有ret是直接在后面没有任何东西的情况下跳转到eip所存的东西的，不需要在后面再加任何的东西
+		在执行cpu.eip += instr_len之前eip就已抵达了下一条指令的正确位置
+		*/
 
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);

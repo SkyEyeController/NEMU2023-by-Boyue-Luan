@@ -3,7 +3,7 @@
 //指令——RET（C3)
 make_helper(concat(ret_nothing_,SUFFIX))
 {
-   cpu.eip=MEM_R(reg_l(R_ESP));
+   cpu.eip=MEM_R(reg_l(R_ESP))-1;//配重抵消
    reg_l(R_ESP)+=DATA_BYTE;
    print_asm("ret");
    return 1;
