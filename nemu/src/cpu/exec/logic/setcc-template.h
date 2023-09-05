@@ -4,11 +4,14 @@
 
 #define else_exec() OPERAND_W(op_src, 0)
 
-#define finalexec() static void do_execute() {\
-				       if(SETFLAG) if_exec() else else_exec();\
-					   print_asm_template1();\
-				   }\
-				   make_instr_helper(rm)
+#define finalexec()                     \
+	static void do_execute()            \
+	{                                   \
+		if (SETFLAG)                    \
+			if_exec() else else_exec(); \
+		print_asm_template1();          \
+	}                                   \
+	make_instr_helper(rm)
 
 #define instr seta
 #define SETFLAG cpu.eflags.CF == 0 && cpu.eflags.ZF == 0
@@ -55,7 +58,7 @@ finalexec();
 #define instr setg
 #define SETFLAG cpu.eflags.ZF == 0 && cpu.eflags.SF == cpu.eflags.OF
 finalexec();
-#undef SETFLAG	
+#undef SETFLAG
 #undef instr
 
 #define instr setge

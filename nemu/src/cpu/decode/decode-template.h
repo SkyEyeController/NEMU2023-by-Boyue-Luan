@@ -21,11 +21,9 @@ make_helper(concat(decode_i_, SUFFIX)) {
 	return DATA_BYTE;
 }
 
-#if DATA_BYTE == 1 || DATA_BYTE == 4
+#if DATA_BYTE == 1 || DATA_BYTE == 4 || DATA_BYTE == 2
 /* sign immediate */
 make_helper(concat(decode_si_, SUFFIX)) {
-	op_src->type = OP_TYPE_IMM;
-
 	op_src->type = OP_TYPE_IMM;
 
 	/* TODO: Use instr_fetch() to read `DATA_BYTE' bytes of memory pointed
