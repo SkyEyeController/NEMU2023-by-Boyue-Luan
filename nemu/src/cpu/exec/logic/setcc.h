@@ -33,5 +33,5 @@ m(setpe);
 m(setpo);
 m(sets);
 m(setz);
-
+#undef m
 #endif
