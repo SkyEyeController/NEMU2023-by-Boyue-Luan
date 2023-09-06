@@ -5,24 +5,26 @@
 
 typedef int FLOAT;
 
-static inline int F2int(FLOAT a) {
-	nemu_assert(0);
-	return 0;
+static inline int F2int(FLOAT a)
+{
+	int result = a / 65536;
+	return result;
 }
 
-static inline FLOAT int2F(int a) {
-	nemu_assert(0);
-	return 0;
+static inline FLOAT int2F(int a)
+{
+	int result = a * 65536;
+	return result;
 }
 
-static inline FLOAT F_mul_int(FLOAT a, int b) {
-	nemu_assert(0);
-	return 0;
+static inline FLOAT F_mul_int(FLOAT a, int b)
+{
+	return a * b;
 }
 
-static inline FLOAT F_div_int(FLOAT a, int b) {
-	nemu_assert(0);
-	return 0;
+static inline FLOAT F_div_int(FLOAT a, int b)
+{
+	return a / b;
 }
 
 FLOAT f2F(float);
