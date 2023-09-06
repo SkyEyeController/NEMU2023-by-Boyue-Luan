@@ -14,7 +14,7 @@ static void do_execute()
         swaddr_write((DATA_TYPE)op_src->reg,4,MEM_R(R_ESP));
         reg_l(R_ESP)+=DATA_BYTE;
     }
-    print_asm_template2();
+    print_asm_template1();
 }
 make_instr_helper(r);
 make_instr_helper(rm);
