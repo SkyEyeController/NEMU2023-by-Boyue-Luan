@@ -5,26 +5,29 @@
 
 typedef int FLOAT;
 
-static inline int F2int(FLOAT a)
-{
-	int result = a / 65536;
-	return result;
+static inline int F2int(FLOAT a) {
+	int ret =a&0xffff0000; // Take the higher 16 bits
+	return ret >>16;       // Take the integer part
+    /*nemu_assert(0);
+	return 0;*/
 }
 
-static inline FLOAT int2F(int a)
-{
-	int result = a * 65536;
-	return result;
+static inline FLOAT int2F(int a) {
+	return a<<16;          // Change to the integer part
+	/*nemu_assert(0);
+	return 0;*/
 }
 
-static inline FLOAT F_mul_int(FLOAT a, int b)
-{
-	return a * b;
+static inline FLOAT F_mul_int(FLOAT a, int b) {
+	return a*b;
+	/*nemu_assert(0);
+	return 0;*/
 }
 
-static inline FLOAT F_div_int(FLOAT a, int b)
-{
-	return a / b;
+static inline FLOAT F_div_int(FLOAT a, int b) {
+	return a/b;
+	/*nemu_assert(0);
+	return 0;*/
 }
 
 FLOAT f2F(float);
