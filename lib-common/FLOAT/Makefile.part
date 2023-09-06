@@ -5,8 +5,6 @@ FLOAT_VFPRINTF_O := $(dir $(FLOAT))FLOAT_vfprintf.o
 
 FLOAT_A_OBJ := $(FLOAT_O) $(FLOAT_VFPRINTF_O)
 
-$(FLOAT): $(FLOAT_A_OBJ)
-	ar r $@ $^
 
 # TODO: complete the following rules
 
