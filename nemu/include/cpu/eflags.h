@@ -61,8 +61,7 @@ mc(ge)
 
 mc(l)
 {
-	if(cpu.eflags.SF != cpu.eflags.OF)return 1;
-	return 0;
+	return cpu.eflags.SF ^ cpu.eflags.OF;
 }
 
 mc(le)
