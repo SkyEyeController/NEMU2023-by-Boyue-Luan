@@ -4,6 +4,7 @@
 
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
+extern char _ppfs_setargs;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
@@ -14,9 +15,22 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00010000    "1.000000"
 	 *         0x00013333    "1.199996"
 	 */
+	char buf[80];               //Capacity
+	int op=(f>>31)&0x1;         //Take Sign Position
+	if(op)f=(~f)+1;             //Take Opposite number
+	int frac =0;
+	int i;
+	int base=1000000000;         //Enough Big
+	for(i=15;i>=0;i--){         // Lower 16 bits
+		base>>=1;
+		if(f&(1<<i))frac+=base; //Judge 0
+	}
+	int num=f>>16;              //Take integer part
+	int len=0;                  //Record buf length
+	while(frac>999999)frac /=10;//Keep six decimal places.
+	if(op)len=sprintf(buf,"-%d.%06d",num,frac);
+	else len=sprintf(buf,"%d.%06d",num,frac);
 
-	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
 	return __stdio_fwrite(buf, len, stream);
 }
 
@@ -26,7 +40,6 @@ static void modify_vfprintf() {
 	 * is the code section in _vfprintf_internal() relative to the
 	 * hijack.
 	 */
-
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
 		ssize_t nf;
@@ -44,13 +57,11 @@ static void modify_vfprintf() {
 		return 0;
 	} else if (ppfs->conv_num <= CONV_S) {  /* wide char or string */
 #endif
-
 	/* You should modify the run-time binary to let the code above
 	 * call `format_FLOAT' defined in this source file, instead of
 	 * `_fpmaxtostr'. When this function returns, the action of the
 	 * code above should do the following:
 	 */
-
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
 		ssize_t nf;
@@ -65,14 +76,12 @@ static void modify_vfprintf() {
 #endif
 
 }
-
 static void modify_ppfs_setargs() {
 	/* TODO: Implement this function to modify the action of preparing
 	 * "%f" arguments for _vfprintf_internal() in _ppfs_setargs().
 	 * Below is the code section in _vfprintf_internal() relative to
 	 * the modification.
 	 */
-
 #if 0
 	enum {                          /* C type: */
 		PA_INT,                       /* int */
