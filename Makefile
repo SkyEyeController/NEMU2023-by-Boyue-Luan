@@ -51,10 +51,9 @@ clean: clean-cpp
 	-rm -rf obj 2> /dev/null
 	-rm -f *log.txt entry $(FLOAT) 2> /dev/null
 
-
 ##### some convinient rules #####
 
-USERPROG = obj/testcase/quadratic-eq
+USERPROG = obj/testcase/add-longlong
 ENTRY = $(USERPROG)
 
 entry: $(ENTRY)
