@@ -51,9 +51,7 @@ mc(z) { return cpu.eflags.ZF; }
 
 mc(g)
 {
-	//return !(cpu.eflags.ZF | (cpu.eflags.SF ^ cpu.eflags.OF));
-	return cpu.eflags.ZF==0&&(cpu.eflags.SF==cpu.eflags.OF);
-
+	return !(cpu.eflags.ZF | (cpu.eflags.SF ^ cpu.eflags.OF));
 }
 
 mc(ge)
