@@ -117,6 +117,7 @@ static bool make_token(char *e)
 				{
 				case NOTYPE:
 					break;
+				case VAR:
 				case NUM:
 					// default: panic("please implement me");
 				case REG:
