@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "FLOAT.h"
-#include<glibc.h>
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
