@@ -186,6 +186,7 @@ static int find_dominated_op(int s, int e, bool *success)
 		{
 		case REG:
 		case NUM:
+		case VAR:
 			break;
 
 		case '(':
