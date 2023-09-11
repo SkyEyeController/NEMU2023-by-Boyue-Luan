@@ -4,7 +4,6 @@
 #include "trap.h"
 
 char buf[128];
-
 int main() {
 	init_FLOAT_vfprintf();
 
