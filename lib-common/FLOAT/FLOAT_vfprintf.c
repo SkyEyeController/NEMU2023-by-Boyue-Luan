@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "FLOAT.h"
-
+#include <stdio.h>
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
 extern char _ppfs_setargs;
