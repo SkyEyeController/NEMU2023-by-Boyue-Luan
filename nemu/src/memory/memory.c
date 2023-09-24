@@ -236,8 +236,6 @@ uint32_t swaddr_read(swaddr_t addr, size_t len) {
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
-    uint32_t Inaddr;
-	Inaddr =seg_translate(addr,len,current_sreg);
 	return lnaddr_read(addr, len);
 }
 
@@ -245,8 +243,6 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
-    uint32_t Inaddr;
-	Inaddr  = seg_translate(addr,len,current_sreg);
 	return lnaddr_write(addr, len, data);
 }
 
