@@ -16,9 +16,6 @@ void ddr3_write(hwaddr_t, void *, uint8_t *);
 int is_mmio(hwaddr_t);
 uint32_t mmio_read(hwaddr_t, size_t, int);
 void mmio_write(hwaddr_t, size_t, uint32_t, int);
-// lnaddr_t seg_translate(swaddr_t, size_t, uint8_t);
-// hwaddr_t page_translate(lnaddr_t);
-// CPU_state cpu;
 extern uint8_t current_sreg;
 
 struct Cache
