@@ -9,14 +9,16 @@ const char *regsw[] = {"ax", "cx", "dx", "bx", "sp", "bp", "si", "di"};
 const char *regsb[] = {"al", "cl", "dl", "bl", "ah", "ch", "dh", "bh"};
 const char *regss[] = {"es", "cs", "ss", "ds", "fs", "gs"};
 
-void reg_test() {
+void reg_test()
+{
 	srand(time(0));
 	uint32_t sample[8];
 	uint32_t eip_sample = rand();
 	cpu.eip = eip_sample;
 
 	int i;
-	for(i = R_EAX; i <= R_EDI; i ++) {
+	for (i = R_EAX; i <= R_EDI; i++)
+	{
 		sample[i] = rand();
 		reg_l(i) = sample[i];
 		assert(reg_w(i) == (sample[i] & 0xffff));
@@ -43,37 +45,47 @@ void reg_test() {
 	assert(eip_sample == cpu.eip);
 }
 
-void display_reg() {
+void display_reg()
+{
 	int i;
-	for(i = 0; i < 8; i ++) {
+	for (i = 0; i < 8; i++)
+	{
 		printf("%s\t\t0x%08x\t\t%d\n", regsl[i], cpu.gpr[i]._32, cpu.gpr[i]._32);
 	}
 
 	printf("%s\t\t0x%08x\t\t%d\n", "eip", cpu.eip, cpu.eip);
 }
 
-uint32_t get_reg_val(const char *s, bool *success) {
+uint32_t get_reg_val(const char *s, bool *success)
+{
 	int i;
 	*success = true;
-	for(i = 0; i < 8; i ++) {
-		if(strcmp(regsl[i], s) == 0) {
+	for (i = 0; i < 8; i++)
+	{
+		if (strcmp(regsl[i], s) == 0)
+		{
 			return reg_l(i);
 		}
 	}
 
-	for(i = 0; i < 8; i ++) {
-		if(strcmp(regsw[i], s) == 0) {
+	for (i = 0; i < 8; i++)
+	{
+		if (strcmp(regsw[i], s) == 0)
+		{
 			return reg_w(i);
 		}
 	}
 
-	for(i = 0; i < 8; i ++) {
-		if(strcmp(regsb[i], s) == 0) {
+	for (i = 0; i < 8; i++)
+	{
+		if (strcmp(regsb[i], s) == 0)
+		{
 			return reg_b(i);
 		}
 	}
 
-	if(strcmp("eip", s) == 0) {
+	if (strcmp("eip", s) == 0)
+	{
 		return cpu.eip;
 	}
 
@@ -81,14 +93,14 @@ uint32_t get_reg_val(const char *s, bool *success) {
 	return 0;
 }
 
-void sreg_load() 
+void sreg_load()
 {
 	uint16_t sreg = current_sreg;
-    	Assert(cpu.cr0.protect_enable, "Not in protection mode");
-    	uint16_t index = cpu.sr[sreg].selector >> 3;
-    	Assert(index * 8 < cpu.gdtr.seg_limit, "segment selector out of limit");
-    	seg_des->first_part = lnaddr_read(cpu.gdtr.base_addr + index * 8, 4);
-  	seg_des->second_part = lnaddr_read(cpu.gdtr.base_addr + index * 8 + 4, 4);
+	Assert(cpu.cr0.protect_enable, "Not in protection mode");
+	uint16_t index = cpu.sr[sreg].selector >> 3;
+	Assert(index * 8 < cpu.gdtr.seg_limit, "segment selector out of limit");
+	seg_des->first_part = lnaddr_read(cpu.gdtr.base_addr + index * 8, 4);
+	seg_des->second_part = lnaddr_read(cpu.gdtr.base_addr + index * 8 + 4, 4);
 	Assert(seg_des->p == 1, "segment error");
 	cpu.sr[sreg].seg_base1 = seg_des->seg_base1;
 	cpu.sr[sreg].seg_base2 = seg_des->seg_base2;
@@ -96,5 +108,6 @@ void sreg_load()
 	cpu.sr[sreg].seg_limit1 = seg_des->seg_limit1;
 	cpu.sr[sreg].seg_limit2 = seg_des->seg_limit2;
 	cpu.sr[sreg].seg_limit3 = 0xfff;
-    	if (seg_des->g) cpu.sr[sreg].seg_limit <<= 12;
+	if (seg_des->g)
+		cpu.sr[sreg].seg_limit <<= 12;
 }

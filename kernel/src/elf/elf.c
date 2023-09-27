@@ -2,7 +2,7 @@
 #include "memory.h"
 #include <string.h>
 #include <elf.h>
-
+#include <stdio.h>
 #define ELF_OFFSET_IN_DISK 0
 
 #ifdef HAS_DEVICE
@@ -38,44 +38,43 @@ uint32_t loader()
 
 	/* Load each program segment */
 	// panic("please implement me");
-	int i;
+	int i = 0;
 	ph = (void *)(buf + elf->e_phoff);
-	for (i = 0; i < elf->e_phnum; i++)
+	for (; i < elf->e_phnum; ++i, ++ph)
 	{
 		/* Scan the program header table, load each segment into memory */
 		if (ph->p_type == PT_LOAD)
 		{
-
+			ph->p_vaddr = mm_malloc(ph->p_vaddr, ph->p_memsz);
 			/* TODO: read the content of the segment from the ELF file
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			ramdisk_read((void *)(ph->p_vaddr), ph->p_offset, ph->p_filesz);
-
+#ifdef HAS_DEVICE
+			ide_read((void *)ph->p_vaddr, ph->p_offset, ph->p_filesz);
+#else
+			ramdisk_read((void *)ph->p_vaddr, ph->p_offset, ph->p_filesz);
+#endif
 			/* TODO: zero the memory region
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			memset((void *)(ph->p_vaddr + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
-
-			
-
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
-			extern uint32_t cur_brk, max_brk;
+			extern uint32_t brk;
 			uint32_t new_brk = ph->p_vaddr + ph->p_memsz - 1;
-			if (cur_brk < new_brk)
+			if (brk < new_brk)
 			{
-				max_brk = cur_brk = new_brk;
+				brk = new_brk;
 			}
 #endif
 		}
-		ph++;
 	}
 
 	volatile uint32_t entry = elf->e_entry;
 
 #ifdef IA32_PAGE
 	mm_malloc(KOFFSET - STACK_SIZE, STACK_SIZE);
-
+	create_video_mapping();
 #ifdef HAS_DEVICE
 	create_video_mapping();
 #endif
