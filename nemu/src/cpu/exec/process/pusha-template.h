@@ -40,7 +40,7 @@ static void do_execute () {
 		push4 (reg_l(R_ESI));
 		push4 (reg_l(R_EDI));
 	}
-	print_asm_no_template1();
+	print_asm_template1();
 }
 
 make_instr_helper(n)

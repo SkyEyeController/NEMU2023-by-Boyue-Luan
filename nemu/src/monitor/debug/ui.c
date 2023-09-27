@@ -74,60 +74,48 @@ static int cmd_info(char *args)
 }
 
 /* Add examine memory */
-static int cmd_x(char *args)
-{
+static int cmd_x(char *args) {
 	char *arg = strtok(NULL, " ");
 	int n;
 	swaddr_t addr;
 	int i;
 
-	if (arg != NULL)
-	{
+	if(arg != NULL) {
 		sscanf(arg, "%d", &n);
 
 		bool success;
 		addr = expr(arg + strlen(arg) + 1, &success);
-		if (success)
-		{
-			for (i = 0; i < n; i++)
-			{
-				if (i % 4 == 0)
-				{
+		if(success) {
+			current_sreg = R_DS;
+			for(i = 0; i < n; i ++) {
+				if(i % 4 == 0) {
 					printf("0x%08x: ", addr);
 				}
 
 				printf("0x%08x ", swaddr_read(addr, 4));
 				addr += 4;
-				if (i % 4 == 3)
-				{
+				if(i % 4 == 3) {
 					printf("\n");
 				}
 			}
 			printf("\n");
 		}
-		else
-		{
-			printf("Bad expression\n");
-		}
+		else { printf("Bad expression\n"); }
+
 	}
 	return 0;
 }
 
 /* Add expression evaluation  */
-static int cmd_p(char *args)
-{
+static int cmd_p(char *args) {
 	bool success;
-	if (args)
-	{
+
+	if(args) {
 		uint32_t r = expr(args, &success);
-		if (success)
-		{
-			printf("0x%08x(%d)\n", r, r);
-		}
-		else
-		{
-			printf("Bad expression\n");
-		}
+		if(success) {
+			current_sreg = R_DS;
+			printf("0x%08x(%d)\n", r, r); }
+		else { printf("Bad expression\n"); }
 	}
 	return 0;
 }
@@ -174,11 +162,9 @@ static int cmd_q(char *args)
 	return -1;
 }
 
-static int cmd_bt(char *args)
-{
-	const char *find_fun_name(uint32_t eip);
-	struct
-	{
+static int cmd_bt(char *args) {
+	const char* find_fun_name(uint32_t eip);
+	struct {
 		swaddr_t prev_ebp;
 		swaddr_t ret_addr;
 		uint32_t args[4];
@@ -186,17 +172,15 @@ static int cmd_bt(char *args)
 
 	uint32_t ebp = cpu.ebp;
 	uint32_t eip = cpu.eip;
-	int i;
-	i = 0;
-	while (ebp != 0)
-	{
+	int i = 0;
+	while(ebp != 0) {
 		sf.args[0] = swaddr_read(ebp + 8, 4);
 		sf.args[1] = swaddr_read(ebp + 12, 4);
 		sf.args[2] = swaddr_read(ebp + 16, 4);
 		sf.args[3] = swaddr_read(ebp + 20, 4);
 
 		printf("#%d 0x%08x in %s (0x%08x 0x%08x 0x%08x 0x%08x)\n", i, eip, find_fun_name(eip), sf.args[0], sf.args[1], sf.args[2], sf.args[3]);
-		i++;
+		i ++;
 		eip = swaddr_read(ebp + 4, 4);
 		ebp = swaddr_read(ebp, 4);
 	}
