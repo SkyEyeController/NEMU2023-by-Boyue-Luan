@@ -51,3 +51,9 @@
 #include "process/push.h"
 #include "process/pop.h"
 
+#include "data-mov/lgdt.h"
+#include "process/popa.h"
+#include "process/pusha.h"
+
+#include "string/cld.h"
+#include "logic/std.h"
